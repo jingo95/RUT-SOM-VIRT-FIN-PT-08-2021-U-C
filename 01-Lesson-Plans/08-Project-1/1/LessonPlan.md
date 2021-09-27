@@ -16,31 +16,32 @@ Be sure to slack out the [Git Branching Workflow](http://nvie.com/posts/a-succes
 
 Slack out the [Visual Introduction to Git](https://medium.com/@ashk3l/a-visual-introduction-to-git-9fdca5d3b43a).
 
-* If possible, share the above links both _before_ today's class, and again at the end of it.
+- If possible, share the above links both _before_ today's class, and again at the end of it.
 
 ### Sample Class Video (Highly Recommended)
 
-* To watch an example class lecture, go here: [8.1 Class Video.](https://codingbootcamp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a2cb4f58-e796-4877-a52d-aad10153dca8) Note that this video may not reflect the most recent lesson plan.
+- To watch an example class lecture, go here: [8.1 Class Video.](https://codingbootcamp.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a2cb4f58-e796-4877-a52d-aad10153dca8) Note that this video may not reflect the most recent lesson plan.
 
 ### Class Slides and Time Tracker
 
-* The slides for this lesson can be viewed on Google Drive here: [Lesson Slides](https://docs.google.com/presentation/d/1RmZstsFWC9CU8zM9dGKOG0dzoZvlUs2mTC3looGVm9E/edit?usp=sharing).
+- The slides for this lesson can be viewed on Google Drive here: [Lesson Slides](https://docs.google.com/presentation/d/1RmZstsFWC9CU8zM9dGKOG0dzoZvlUs2mTC3looGVm9E/edit?usp=sharing).
 
-* To add the slides to the student-facing repository, download the slides as a PDF by navigating to File, selecting "Download as," and then choosing "PDF document." Then, add the PDF file to your class repository along with other necessary files. You can view instructions for this [here](https://docs.google.com/presentation/d/1UEkj7rFjMwpNr4eVXyArTdaq3FbhPabwJRRpxlPriZw/edit#slide=id.g473a132ac1_0_7).
+- To add the slides to the student-facing repository, download the slides as a PDF by navigating to File, selecting "Download as," and then choosing "PDF document." Then, add the PDF file to your class repository along with other necessary files. You can view instructions for this [here](https://docs.google.com/presentation/d/1UEkj7rFjMwpNr4eVXyArTdaq3FbhPabwJRRpxlPriZw/edit#slide=id.g473a132ac1_0_7).
 
-* **Note:** Editing access is not available for this document. If you wish to modify the slides, create a copy by navigating to File and selecting "Make a copy...".
+- **Note:** Editing access is not available for this document. If you wish to modify the slides, create a copy by navigating to File and selecting "Make a copy...".
 
-* The Time Tracker for this lesson can be viewed here: [Time Tracker](TimeTracker.xlsx).
+- The Time Tracker for this lesson can be viewed here: [Time Tracker](TimeTracker.xlsx).
 
 ---
 
 ### Class Objectives
 
 Students must be able to:
-* Articulate the requirements for Project 1.
-* Draw and interpret diagrams of Git branching workflows.
-* Create new branches with Git.
-* Push local branches to GitHub.
+
+- Articulate the requirements for Project 1.
+- Draw and interpret diagrams of Git branching workflows.
+- Create new branches with Git.
+- Push local branches to GitHub.
 
 ---
 
@@ -52,7 +53,7 @@ Congratulate students on having made it this far, and explain that over the next
 
 Point out that this provides students an opportunity to practice both programming and collaborative workflows.
 
-Using the slides, review today's class objectives, then provide a high-level overview of what project week looks like. 
+Using the slides, review today's class objectives, then provide a high-level overview of what project week looks like.
 
 Explain that the first half of today's class will focus on using Git for collaboration, while the second half will give students the opportunity to start thinking about projects with their groups.
 
@@ -66,7 +67,7 @@ In this activity, each project group will create a project repo and invite all g
 
 **File:** [README.md](01-Lesson-Plans/08-Project-1/1/Activities/01-Stu_Create-Repository/README.md)
 
-Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/01-Stu_Create-Repository/README.md) file to the class and have students complete this activity with their groups. This will be the first time most students have created a collaborative repo, so instructional staff should check-in with groups often to offer assistance. 
+Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/01-Stu_Create-Repository/README.md) file to the class and have students complete this activity with their groups. This will be the first time most students have created a collaborative repo, so instructional staff should check-in with groups often to offer assistance.
 
 ### 3. Instructor Do: Pull Requests and Code Review (5 min)
 
@@ -80,7 +81,7 @@ Assure the class that we'll go into further detail about how this is done, but a
 
 Explain that the next step of setting up our project repos for group collaboration is to protect the main branch.
 
-* Protecting the main branch means we will configure the repo to prohibit any team members from pushing code up into the main directly, or merging it in without another team member's review.
+- Protecting the main branch means we will configure the repo to prohibit any team members from pushing code up into the main directly, or merging it in without another team member's review.
 
 ### 4. Student Do: Protect Main Branch (5 min)
 
@@ -88,7 +89,7 @@ Explain that the next step of setting up our project repos for group collaborati
 
 In this activity, groups will protect their main branches.
 
-Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/02-Stu_Protect-Main/README.md) file to the class and have students complete this activity with their groups. 
+Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/02-Stu_Protect-Main/README.md) file to the class and have students complete this activity with their groups.
 
 ### 5. Instructor Do: Branching (10 min)
 
@@ -96,21 +97,21 @@ Note: For now, we just want to give students a high-level conceptual understandi
 
 Continuing with the slides, explain the following points about branching:
 
-* Every Git repo starts off with a main branch, which is there to hold the production version of the repo's code. But when we want to work on the code, we start by creating a new feature branch off the main.
+- Every Git repo starts off with a main branch, which is there to hold the production version of the repo's code. But when we want to work on the code, we start by creating a new feature branch off the main.
 
-* If we create a new branch from the main, we essentially create a self-contained copy of all of the main branch's code for us to work in.
+- If we create a new branch from the main, we essentially create a self-contained copy of all of the main branch's code for us to work in.
 
-* When we're satisfied with our work in the new feature branch, we submit a pull request from the feature branch to the main branch.
+- When we're satisfied with our work in the new feature branch, we submit a pull request from the feature branch to the main branch.
 
-* A pull request is a request to merge the **diffs** or changes from the source branch (the feature branch) to the target branch (main).
+- A pull request is a request to merge the **diffs** or changes from the source branch (the feature branch) to the target branch (main).
 
-* With the way our repos are set up now, another group member must look at and approve the pull request before its changes can be merged into the main.
+- With the way our repos are set up now, another group member must look at and approve the pull request before its changes can be merged into the main.
 
-* Once a feature branch has been merged into the main, we delete it and then check back out to the main branch. From there, we'd check back out to a new feature branch, and repeat the process for each feature we add.
+- Once a feature branch has been merged into the main, we delete it and then check back out to the main branch. From there, we'd check back out to a new feature branch, and repeat the process for each feature we add.
 
 Slack out the following image for students to have as a visual aid:
 
-  ![Git Branching](Images/01-Git-Branching.png)
+![Git Branching](Images/01-Git-Branching.png)
 
 Take a moment to answer any questions, but avoid going too in depth. Students will utilize branches in the next activity.
 
@@ -120,7 +121,7 @@ Take a moment to answer any questions, but avoid going too in depth. Students wi
 
 In this activity, students will create branches, submit pull requests, and perform code reviews before merging.
 
-Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/0--Stu_Branching-Pushing/README.md) file to the class and have students complete this activity with their groups. 
+Slack out the [README.md](01-Lesson-Plans/08-Project-1/1/Activities/0--Stu_Branching-Pushing/README.md) file to the class and have students complete this activity with their groups.
 
 Instructional staff should be walking around the class making themselves available for assistance, and ensuring students understand the instructions.
 
@@ -130,7 +131,7 @@ Point out that students will need a project to work on if they're to be able to 
 
 Utilize the slideshow to explain the requirements for Project 1.
 
-* Be sure to slack out the Project's [Technical Requirements](../../../03-Projects/Project-01/TechnicalRequirements.md); the [Project Guidelines](../../../03-Projects/Project-01/ProjectGuidelines.md); the [Presentation Requirements](../../../03-Projects/Project-01/PresentationRequirements.md); the [Presentation Guidelines](../../../03-Projects/Project-01/PresentationGuidelines.md) after going through the slides.
+- Be sure to slack out the Project's [Technical Requirements](https://github.com/coding-boot-camp/FinTech-Lesson-Plans/blob/main/03-Projects/Project-01/TechnicalRequirements.md); the [Project Guidelines](../../../03-Projects/Project-01/ProjectGuidelines.md); the [Presentation Requirements](https://github.com/coding-boot-camp/FinTech-Lesson-Plans/blob/main/03-Projects/Project-01/PresentationRequirements.md); the [Presentation Guidelines](https://github.com/coding-boot-camp/FinTech-Lesson-Plans/blob/main/03-Projects/Project-01/PresentationGuidelines.md) after going through the slides.
 
 Take a moment to address any remaining questions before dismissing the class for break.
 
