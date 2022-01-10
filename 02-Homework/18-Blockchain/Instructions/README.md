@@ -1,183 +1,103 @@
-# Proof of Authority Development Chain
+# PyChain Ledger
 
-For this assignment, you will take on the role of a new developer at a small bank.
+![alt=""](Images/application-image.png)
 
-Your mission, should you choose to accept it, will be to set up a testnet blockchain for your organization.
+You’re a fintech engineer who’s working at one of the five largest banks in the world. You were recently promoted to act as the lead developer on their decentralized finance team. Your task is to build a blockchain-based ledger system, complete with a user-friendly web interface. This ledger should allow partner banks to conduct financial transactions (that is, to transfer money between senders and receivers) and to verify the integrity of the data in the ledger.
 
-To do this, you will create and submit four deliverables:
+You’ll make the following updates to the provided Python file for this assignment, which already contains the basic `PyChain` ledger structure that you created throughout the module:
 
-* Set up your custom testnet blockchain.
+1. Create a new data class named `Record`. This class will serve as the blueprint for the financial transaction records that the blocks of the ledger will store.
 
-* Send a test transaction.
+2. Modify the existing `Block` data class to store `Record` data.
 
-* Create a repository.
+3. Add Relevant User Inputs to the Streamlit interface.
 
-* Write instructions on how to use the chain for the rest of your team.
+4. Test the PyChain Ledger by Storing Records.
 
-## Background
+---
+## Files
 
-You have just landed a new job at ZBank, a small, innovative bank that is interested in exploring what
-blockchain technology can do for them and their customers.
+Download the following files to help you get started:
 
-Your first project at the company is to set up a private testnet that you and your team of developers
-can use to explore potentials for blockchain at ZBank.
+[Module 18 Homework files](Starter_Code/pychain.py)
 
-You have decided on setting up a testnet because:
-
-There is no real money involved, which will give your team of developers the freedom to experiment.
-
-Testnets allows for offline development.
-
-In order to set up a testnet, you will need to use the following skills/tools we learned in class:
-
-* Puppeth, to generate your genesis block.
-
-* Geth, a command-line tool, to create keys, initialize nodes, and connect the nodes together.
-
-* The Clique Proof of Authority algorithm.
-
-Tokens inherently have no value here, so we will provide pre-configured accounts and nodes for easy setup.
-
-After creating the custom development chain, create documentation for others on how to start it using the pre-configured
-nodes and accounts. You can name the network anything you want, have fun with it!
-
-Be sure to include any preliminary setup information, such as installing dependencies and environment configuration.
+---
 
 ## Instructions
 
-### Setup the custom out-of-the-box blockchain
+Open the [`pychain.py` file](Starter_Code/pychain.py) included in the Homework's `Starter_code` folder. You’ll use this file to complete the steps for this assignment. Notice that the `PyChain` ledger that you built throughout this unit already includes the functionality to create blocks, perform the proof of work consensus protocol, and validate blocks in the chain.
 
-* Create a new project directory for your new network. Call it whatever you want!
+The steps for this assignment are divided into the following sections:
 
-* Create a "Screenshots" folder inside of the project directory.
+1. Create a Record Data Class
 
-* Create accounts for two (or more) nodes for the network with a separate `datadir` for each using `geth`.
+2. Modify the Existing Block Data Class to Store Record Data
 
-* Run `puppeth`, name your network, and select the option to configure a new genesis block.
+3. Add Relevant User Inputs to the Streamlit Interface
 
-* Choose the `Clique (Proof of Authority)` consensus algorithm.
+4. Test the PyChain Ledger by Storing Records
 
-* Paste both account addresses from the first step one at a time into the list of accounts to seal.
+### Step 1: Create a Record Data Class
 
-* Paste them again in the list of accounts to pre-fund. There are no block rewards in PoA, so you'll need to pre-fund.
+Define a new Python data class named `Record`. Give this new class a formalized data structure that consists of the `sender`, `receiver`, and `amount` attributes. To do so, complete the following steps:
 
-* You can choose `no` for pre-funding the pre-compiled accounts (0x1 .. 0xff) with wei. This keeps the genesis cleaner.
+1. Define a new class named `Record`.
 
-* Complete the rest of the prompts, and when you are back at the main menu, choose the "Manage existing genesis" option.
+2. Add the `@dataclass` decorator immediately before the `Record` class definition.
 
-* Export genesis configurations. This will fail to create two of the files, but you only need `networkname.json`.
+3. Add an attribute named `sender` of type `str`.
 
-* You can delete the `networkname-harmony.json` file.
+4. Add an attribute named `receiver` of type `str`.
 
-* Screenshot the `puppeth` configuration once complete and save it to the Screenshots folder.
+5. Add an attribute named `amount` of type `float`.
 
-* Initialize each node with the new `networkname.json` with `geth`.
+Note that you’ll use this new `Record` class as the data type of your `record` attribute in the next section.
 
-* Run the first node, unlock the account, enable mining, and the RPC flag. Only one node needs RPC enabled.
+### Step 2: Modify the Existing Block Data Class to Store Record Data
 
-* Set a different peer port for the second node and use the first node's `enode` address as the `bootnode` flag.
+Rename the `data` attribute in your `Block` class to `record`, and then set it to use an instance of the new `Record` class that you created in the previous section. To do so, complete the following steps:
 
-* Be sure to unlock the account and enable mining on the second node!
+1. In the `Block` class, rename the `data` attribute to `record`.
 
-* You should now see both nodes producing new blocks, congratulations!
+2. Set the data type of the `record` attribute to `Record`.
 
-### Send a test transaction
+### Step 3: Add Relevant User Inputs to the Streamlit Interface
 
-* Use the MyCrypto GUI wallet to connect to the node with the exposed RPC port.
+Code additional input areas for the user interface of your Streamlit application. Create these input areas to capture the sender, receiver, and amount for each transaction that you’ll store in the `Block` record. To do so, complete the following steps:
 
-* You will need to use a custom network, and include the chain ID, and use ETH as the currency.
+1. Delete the `input_data` variable from the Streamlit interface.
 
-![custom-node](Images/custom-node.png)
+2. Add an input area where you can get a value for `sender` from the user.
 
-* Import the keystore file from the `node1/keystore` directory into MyCrypto. This will import the private key.
+3. Add an input area where you can get a value for `receiver` from the user.
 
-* Send a transaction from the `node1` account to the `node2` account.
+4. Add an input area where you can get a value for `amount` from the user.
 
-* Copy the transaction hash and paste it into the "TX Status" section of the app, or click "TX Status" in the popup.
+5. As part of the “Add Block” button functionality, update `new_block` so that `Block` consists of an attribute named `record`, which is set equal to a `Record` that contains the `sender`, `receiver`, and `amount` values. The updated `Block` should also include the attributes for `creator_id` and `prev_hash`.
 
-* Screenshot the transaction metadata (status, tx hash, block number, etc) and save it to your Screenshots folder.
+### Step 4: Test the PyChain Ledger by Storing Records
 
-* Celebrate, you just created a blockchain and sent a transaction!
+Test your complete `PyChain` ledger and user interface by running your Streamlit application and storing some mined blocks in your `PyChain` ledger. Then test the blockchain validation process by using your `PyChain` ledger. To do so, complete the following steps:
 
-![transaction-success](Images/transaction-success.png)
+1. In the terminal, navigate to the project folder where you've coded this assignment.
 
-### Create a repository, and instructions for launching the chain
+2. In the terminal, run the Streamlit application by using `streamlit run pychain.py`.
 
-* Create a `README.md` in your project directory and create documentation that explains how to start the network.
+3. Enter values for the sender, receiver, and amount, and then click the Add Block button. Do this several times to store several blocks in the ledger.
 
-* Remember to include any environment setup instructions and dependencies.
+4. Verify the block contents and hashes in the Streamlit dropdown menu. Take a screenshot of the Streamlit application page, which should detail a blockchain that consists of multiple blocks. Include the screenshot in the `README.md` file for your GitHub repository.
 
-* Be sure to include all of the `geth` flags required to get both nodes to mine and explain what they mean.
-
-* Explain the configuration of the network, such as it's blocktime, chain ID, account passwords, ports, etc.
-
-* Explain how to connect MyCrypto to your network and demonstrate (via screenshots and steps) and send a transaction.
-
-* Upload the code, including the `networkname.json` and node folders.
-
-### Remember, *never* share your mainnet private keys! This is a testnet, so coins have no value here!
-
-### Hints
-
-* If you get stuck - try our step by step PoA Guide located [here](Resources/POA-Blockchain-guide.md).
-
-* If you aren't seeing any movement in the wallet amounts in MyCrypto after sending/receiving transactions, try the following:
-    * Terminate both nodes using `control+C` in the Node1 and Node2 terminal windows.
-    * Change networks in MyCrypto to a Testnet such as Kovan.
-    * Restart Node1 and Node2 in their terminal windows.
-    * Reconnect to your network in MyCrypto.
-    * Log into your wallet and refresh the amount.
-    
-* If that doesn't help make sure you are sending a large enough sum of ETH to see actual movement in the digits. You may have to click on the amount itself to see the full value down to the WEI.
-
-    ![before_after_click_mycrypto](Images/before_after_click_mycrypto.png)
-
-### Submission
-
-* Include all appropriate requirements in a GitHub repository.
-
-* Submit the link to your GitHub repository to Bootcamp Spot.
+5. Test the blockchain validation process by using the web interface. Take a screenshot of the Streamlit application page, which should indicate the validity of the blockchain. Include the screenshot in the `README.md` file for your homework repository.
 
 ---
-### Requirements
+## Submission
 
-#### Setup and Testing  (50 points)
+You’ll upload the Python file for this assignment to your GitHub repository.
 
-##### To receive all points, your code must:
+* Make sure to update the `README.md` file to include an explanation of the Steamlit application, a screenshot or video of your deployed Streamlit application, and any other information that’s needed to interact with your project.
 
-* Set up the custom Testnet Blockchain. (14 points)
-* Follow and test the directives for set up as indicated. (12 points)
-* Send test transactions. (12 points)
-* Send multi-node test transactions. (12 points)
-
-#### Markdown Documentation (20 points)
-
-##### To receive all points, your code must:
-
-* Include appropriate screenshots of steps and transactions in the ReadME.md file. (10 points)
-* Provide a detailed description of the steps for setting up the network and include screenshots of the process in the ReadME.md. (10 points)
-
-#### Coding Conventions and Formatting (10 points)
-
-##### To receive all points, your code must:
-
-* Place imports at the beginning of the file, just after any module comments and docstrings and before module globals and constants. (3 points)
-* Name functions and variables with lowercase characters and with words separated by underscores. (2 points)
-* Follow Don't Repeat Yourself (DRY) principles by creating maintainable and reusable code. (3 points)
-* Use concise logic and creative engineering where possible. (2 points)
-
-#### Deployment and Submission (10 points)
-
-##### To receive all points, you must:
-
-* Submit a link to a GitHub repository that’s cloned to your local machine and contains your files. (5 points)
-* Include appropriate commit messages in your files. (5 points)
-
-#### Code Comments (10 points)
-
-##### To receive all points, your code must:
-
-* Be well commented with concise, relevant notes that other developers can understand. (10 points)
+* Submit the link to your GitHub project to Bootcamp Spot.
 
 ---
+
 © 2021 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.

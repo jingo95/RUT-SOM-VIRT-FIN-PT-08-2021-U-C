@@ -1,52 +1,50 @@
-## 18.3 Lesson Plan: Building a Blockchain
+## 18.3 Lesson Plan: Build a Decentralized Network
 
 ### Overview
 
-Today's class will have the students build a real Ethereum-based blockchain using the `puppeth` tool bundled with `geth`, the official Ethereum node software.
+In today’s class, students will implement the proof of work consensum mechanism as well as incorporate a block validation process. Both proof of work and block validation allow blockchains to function as a synchronized decentralized network.
 
-The goal of this lesson is to build a "Proof of Work" based chain in class, to prepare the students for building a "Proof of Authority" based test network at home, as well as explain the differences in consensus algorithms and the tradeoffs that they balance.
+The first part of the class focuses on the structure of the blockchain network and the importance of keeping the nodes in a decentralized blockchain in sync.
+
+Next, you’ll explore the proof of work consensus mechanism.You will build a hash guessing algorithm that incorporates a measure of difficulty. Then, you’ll integrate that proof of work algorithm into the PyChain application that was coded in the previous lesson.
+
+Finally, the class will examine the importance of validation in blockchain systems. Students will write the code to validate a blockchain by comparing hash values.
+
+---
 
 ### Class Objectives
 
-By the end of the class, students will be able to:
+By the end of this class, students will be able to:
 
-* Explain the most popular consensus algorithms and the tradeoffs between each.
+* Describe the components of a blockchain system and how they combine to form a network.
 
-* Create a genesis block using `puppeth`.
+* Articulate the role that the proof of work consensus mechanism plays in keeping the blockchain network synchronized.
 
-* Initialize `geth` nodes using a `genesis.json`.
+* Explain how a difficulty factor influences the proof of work algorithm challenge.
 
-* Run and connect `geth` nodes.
+* Integrate a proof of work consensus mechanism into the PyChain blockchain.
 
-* Build a blockchain network and produce blocks.
+* Explain why the validation process is important to the integrity of a blockchain.
 
-* Send a transaction on their local network.
+* Validate an entire blockchain by comparing the hash values between blocks.
 
 ---
 
 ### Instructor Notes
 
-* **Important Note:** For this week's activities, Windows users **MUST** use `git-bash` and not the default command prompt in Windows!
+* Today's class will build on the PyChain application that was started during Day 2 of this unit.
 
-* When switching networks in MyCrypto, it is recommended that you exit out of the app first and open it up again.
+* Students will be introduced to the concepts and processes associated with the proof of work consensus mechanism and blockchain validation.
 
-* Before class, make sure to follow the `geth` [install instructions](../Supplemental/blockchain-install-guide.md) and ensure that the tool is functioning in your computer.
+* The Streamlit application will be used to test code.
 
-* It is highly advised to keep track of the commands you run in order to start a blockchain with `geth`. There are many commands, but two of them will be the most important, and it is easiest to keep track if you are maintaining the notes in each step.
+* Make sure TAs are available to students who are struggling with the Python code, the concept of Python classes, or Streamlit.
 
-* If all else fails, and a student is absolutely unable to start their own blockchain, you can distribute the pre-built [devchain](../Supplemental/devchain.zip). Within is a prebuilt genesis configuration, with two nodes and accounts, as well as a `README.md` for how to start the chain. The chain has mined about 30 blocks already, so it is ready to continue mining.
+---
 
-* Have an address/wallet ready to populate as a pre-funded account. You can generate a new one with MyCrypto, or use the same wallet from Day 1.
+### Slide Show and Time Tracker
 
-* Have a look at the [Proof of Stake](https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ) FAQ on the Ethereum wiki for an in-depth comparison between it and Proof of Work.
-
-* Slack out the [Blockchain TX Installation Guide](../../19-Blockchain-Python/Supplemental/Blockchain_TX_Install_Guide.md) and the [HD Wallet Derive Installation Guide](../../19-Blockchain-Python/Supplemental/HD_Wallet_Derive_Install_Guide.md). Tell students to complete the installation and verify it with a TA before the end of the next class. Students will need this installed before the next unit.
-
-* Students should **not** install the most recent version of Go Ethereum Tools. The correct version to install is **"Geth & Tools 1.9.7"**. If errors occur with the class activities, it is likely because the incorrect version of Geth has been installed.
-
-### Class Slides and Time Tracker
-
-* The slides for this lesson can be viewed on Google Drive here: [Lesson Slides](https://docs.google.com/presentation/d/1E5gDn4M6ivj1i0ZoUmjhcRUIam97v-scO0xQgu1B_CQ/edit?usp=sharing).
+* The slides for this lesson can be viewed on Google Drive here: [18.3 Lesson Slides](https://docs.google.com/presentation/d/1Y5MktQx50Lwp36UBZYwjw7RYblycn6GV0EJwqqqwiaE/edit?usp=sharing).
 
 * To add the slides to the student-facing repository, download the slides as a PDF by navigating to File, selecting "Download as," and then choosing "PDF document." Then, add the PDF file to your class repository along with other necessary files. You can view instructions for this [here](https://docs.google.com/document/d/1XM90c4s9XjwZHjdUlwEMcv2iXcO_yRGx5p2iLZ3BGNI/edit?usp=sharing).
 
@@ -56,839 +54,1201 @@ By the end of the class, students will be able to:
 
 ---
 
-### 1. Instructor Do: Welcome Class (10 min)
+### 1. Instructor Do: Decentralized Systems (10 min)
 
-Welcome students to the third day of the introduction to the blockchain technology, open the lesson slides, and highlight that by the end of Today's class, we will do the following:
+Welcome the students back to class and recap what they’ve done so far in this unit:
 
-* Build a blockchain from scratch!
+* A lot has been accomplished in this unit so far, specifically related to the innovations and impact of blockchain technology.
 
-* Learn the differences between the various consensus algorithms available.
+* Python was used to build a basic blockchain that can securely store financial or other data records.
 
-* Make transactions in our very own blockchain.
+* Now it’s time to open the blockchain record-keeping system to other users. When doing so, we need to consider the following:
 
-Continue by refreshing students a bit on the data structure of a blockchain. Ask the students the following questions:
+  * How should the system be shared?
 
-* What does the "chain" in blockchain refer to?
+  * Who should become the central authority over the system and its processes?
 
-  **Answer** The chain of hashes that link each block to the previous.
+  * Should there be a central authority to monitor the system in order to ensure the legitimacy of all the transactions being processed? Or should responsibilities for the ledger be distributed among its participants?
 
-* What is a digital signature?
+* As discussed in previous lessons, distributing a ledger and delegating responsibility for the system away from a single, central authority is called **decentralization**. Decentralization is a fundamental part of blockchain design.
 
-  **Answer** A message that you can validate the integrity and authenticity of cryptographically.
+Review the difference between a centralized and decentralized system.
 
-* What is a node?
+* In a centralized system, a central authority monitors and audits transactions in order to protect the system from fraud and other problems.
 
-  **Answer** A node is a participant in the network that maintains a full copy of the blockchain.
+* In a decentralized blockchain system, no single entity bears the responsibility of monitoring the system. Instead, rules that govern and protect the system are built into the blockchain functionality.
 
-Explain to the students that today they will be building a real, functioning blockchain from scratch, so get excited!
+Tell students that, in this lesson, we’ll learn about some of the algorithms that blockchain uses in order to operate as a distributed, decentralized system.
 
-Answer any questions before moving on.
-
----
-
-### 2. Instructor Do: Consensus Algorithms (10 min)
-
-In this activity, students will learn what consensus algorithms are and the differences between the available existing options.
-
-Open the lesson slides and move to the "Consensus Algorithms" section, recall to students the "people chain" we built in Day 1 and have students to ponder about the following:
-
-* How would you know if somebody was lying in the network? This is a consensus problem.
-
-  **Answer**: Since there are many copies of the chain, it is easy to verify with another node.
-
-  **Answer**: In reality, there are also digital signatures that would enforce the integrity
-
-* Do any blockchain enthusiasts know what this problem is called?
-
-  **Answer**: Byzantine General's problem!
-
-Play the following video for the class to explain the problem:
-
-* [Byzantine General's Problem](https://youtu.be/dfsRQyYXOsQ)
-
-Explain to students that **consensus algorithms** are how we solve this problem.
-
-Like most things in blockchain, they are simple words that get complicated fast, so start with some definitions and aks students the following questions:
-
-* Can someone define consensus for us?
-
-  **Answer**: "Coming to an agreement." In a blockchain, we mean agreeing on what block in the chain is going to come next.
-
-* What about consensus algorithms?
-
-  **Answer**: In blockchain, we mean the math that decides what block in the chain will come next.
-
-Explain to the students that:
-
-* In a decentralized system, you cannot trust the participants in the network.
-
-* A decentralized system is like a database that can be written to by anyone, which means special rules must be in place to prevent the database from being modified maliciously.
-
-Explain to students that consensus algorithms help to add trust to the systems. Break down the primary purposes for a consensus algorithm:
-
-* The main purpose of a consensus algorithm in blockchain is to get the entire network to agree on which block gets added to the chain next.
-
-* A good consensus algorithm makes it so expensive to cheat, aka "rollback" the chain, that you'd make more just playing the game by the rules and just adding to it (aka mining) instead.
-
-Explain to students that there are many consensus algorithms in development, but blockchain technology has reignited innovation in the distributed computing field; we'll discuss the more popular algorithms relevant to blockchain.
-
-#### Proof of Authority
-
-The first, most straightforward, and least secure algorithm we'll start with is called "Proof of Authority."
-
-![proof of authority](Images/proof-authority.png)
-
-* Proof of Authority allows only specific addresses to mine/produce blocks in the network.
-
-* This is a centralized but cheap algorithm mainly used to power test networks.
-
-* This algorithm is never used in production **mainnet blockchains**, it is only for development and testing in **testnet blockchains**.
-
-#### Proof of Work
-
-![proof of work](Images/mining-farm.png)
-
-* Proof of Work (PoW) is the most popular algorithm in blockchain nowadays.
-
-* This is what Bitcoin came out with, and where the term "mining" comes from.
-
-* Proof of Work is the act of converting computing power that costs real-world energy and money into a block with transactions in it.
-
-* The block is then submitted to the network for confirmation, and the block with the most "work" put into it gets added.
-
-* This is a very secure algorithm, but the most expensive in terms of resources. This is its biggest criticism.
-
-#### Proof of Stake
-
-![proof of stake](Images/proof-stake-young.png)
-
-Explain to students that Proof of Stake (PoS) is very similar to PoW, the main difference is that instead of contributing computational power, this algorithm "stake" some of the cryptocurrency, aka "collateralize" it while you produce blocks.
-
-* "Staking" your coins means to lock them in a transaction that proves to the rest of the network that you are willing to "put your money where your mouth is" to be trusted to make blocks.
-
-* If you cheat, you are penalized from your stake.
-
-* The most significant criticism is the "nothing at stake" problem, where block producers have nothing to lose for producing alternative versions/histories of the blockchain.
-
-* Some versions of this algorithm include "punishing" cheaters by "burning" their stake and not letting them get it back.
-
-* Despite this concern, much of the blockchain community is moving towards different variations of PoS, including Ethereum, with mathematical safeguards in place to reduce this risk significantly.
-
-Explain to the class that there are many other consensus algorithms under research and development, highlight the following:
-
-* Proof of Capacity - It uses free hard drive space as a contribution to the network.
-
-* Proof of Burn -- This algorithm "burns" or making some amount of coins un-spendable to act as a stake to the network.
-
-Answer any questions before moving on.
+* We’ll enhance the PyChain blockchain created in the previous lesson by adding an algorithm that allows  decentralized participants to  agree on the recorded transactions across the entire system.
 
 ---
 
-### 3. Students Do: Turn and Teach Consensus Algorithms (15 min)
+### 2. Instructor Do: Components of a Blockchain System (20 min)
 
-**Corresponding Activity:** [01-Stu_Consensus_Algos](Activities/01-Stu_Consensus_Algos)
+**Corresponding Activity:** None
 
-In this activity, students will turn and teach the three consensus algorithms just covered.
+This section focuses on the components of a blockchain system that form the backbone of the decentralized networks—specifically, the blockchain nodes and how they work together to form a network.
 
-Have the students get into groups of three (one student per algorithm).
+#### Blockchain Nodes
 
-Have TAs circulate and ensure that students are actively engaging in discussion.
+Introduce the concept of **nodes**.
 
-**Instructions:**
+* Software, like a Python program, can be used to digitally record data and store it in chained blocks.
 
-* [README.md](Activities/01-Stu_Consensus_Algos/README.md)
+* In blockchain systems, a device that runs this software—that is, the device that a participant uses to access and add data to the blockchain—is called a **node**.
+
+* Each node is likely a laptop or desktop computer, but it can also be a server in the cloud.
+
+Explain that each blockchain node has two primary responsibilities:
+
+1. Storing a complete copy of the blockchain
+
+2. Running the software that establishes the communication and operation of the system
+
+Explain that a node can store a copy of the ledger, but the software also determines how the blockchain works as a wider system.
+
+* In a single-node system, the blockchain software might allow users to store and access the records only through the command line or a web application. The logic and design of the code and the application can achieve this.
+
+* For example, Python and Streamlit can be used to run a blockchain system that allows users to store and access records through a web browser application.
+
+* However, we haven't yet accounted for a more complex system with multiple nodes.
+
+#### Blockchain Networks
+
+Explain how individual blockchain nodes are combined to create a blockchain network.
+
+* A **network** is simply a collection of computers that connect to each other in some way. This connection can occur through the internet, over a local WiFi connection, or even via a physical cable that connects two computers.
+
+* A **blockchain network** is composed of all the distributed computers, or nodes, that run a copy of the blockchain.
+
+* Distributing copies of the ledger across the blockchain network increases the robustness of the system. If one node in the network goes down, the other nodes will maintain the integrity of the system with their copies.
+
+* In a multiple-node system, such as a decentralized blockchain, the software logic must evolve with the complexity of the network. The number of nodes and how they’re connected and organized influences three main factors:
+
+  1.  How copies of the ledger are distributed.
+
+  2.  Who gets to add new records to the ledger.
+
+  3. How copies of the ledger, maintained on different nodes, are synchronized with each other.
+
+* People often refer to the logic that’s required to maintain the operation, communication, and rules for a blockchain network as **governance**.
+
+* A popular quote from Sonya Mann of the Zcash Foundation breaks down governance with three basic questions:
+
+  1. What should we do?
+
+  2. Who gets to decide?
+
+  3. How are the deciders chosen and held accountable?
+
+> **Note** Slack out the following video link so that students can learn more about [Chaos, Cryptography, and Community Control](https://youtu.be/NDIlGMn8LE4) as presented by Sonya Mann and the Zcash foundation.
+
+Explain that these questions of governance are answered by the type of blockchain that it created.
+
+* The four types of blockchain networks are:
+
+  1. **Public:** A public, or permissionless, blockchain has no access restrictions. Anyone with an internet connection can send transactions and validate them. Governance is established through participant consensus.
+
+  2. **Private:** A private, or permissioned, blockchain is the opposite—that is, the blockchain users must be invited. In this case, the controlling party, or creator of the blockchain, establishes the rules of governance.
+
+  3. **Semiprivate:** A semiprivate, or hybrid, blockchain combines the two in some way.
+
+  4. **Consortium:** A consortium blockchain has restricted access, like a semiprivate blockchain, but consists of two or more groups working together for a common purpose.
+
+* Public (permissionless) and private (permissioned) blockchains are the two most common types, by far.
+
+With this understanding of blockchain networks, examine a simple, three-node, decentralized blockchain network.
+
+Navigate to the slide with the image of the three-node blockchain network, and then cover the talking points that follow.
+
+![Three node blockchain network](Images/three-node-blockchain-network.png)
+
+* The nodes in this system can exist anywhere on the planet (and one day, maybe off the planet!).
+
+* To operate as a network, the blockchain nodes must each run software that allows it to communicate with the other nodes.
+
+* To communicate with each other, the computers in a network use a protocol. A **protocol** is a set of rules that the members of a communication system use to share information with each other. One of the most widely used protocols today is **HTTP**, or hypertext transfer protocol. The vast majority of internet communication uses this protocol.
+
+* In a blockchain network, the software running on the nodes uses protocols to synchronize the copies of the ledger, add new records to the ledger, and perform the other tasks that are needed to operate as a blockchain system.
+
+* With a decentralized blockchain, the authority over the system is encoded directly into the system design. The software, with its protocols and its logic, enforces the rules, allowing the system to self-govern to ensure its overall integrity.
+
+* One of the biggest challenges of designing a blockchain system is deciding who can add new records to the ledger and how to synchronize those records across the nodes.
+
+* Many blockchain systems achieve this through a **consensus protocol**, which is also called a **consensus mechanism**.
+
+#### Consensus Protocols
+
+Introduce the concept of consensus protocols by comparing the operations of a centralized versus a decentralized system.
+
+* Adding records to a ledger is easier to control in a centralized system, because a central authority enforces the rules and communication protocols.
+
+  * Consider a group chat, for example, where multiple users send text messages to a group channel. In a centralized system, these messages go to a central server, which processes them in the order received. The server then rebroadcasts the messages in the correct order to the users in the group. So, everyone receives timely updates in their group chat windows.
+
+* A decentralized system like blockchain has no central server or central authority to manage those communications. Instead, the system relies on algorithms, logic, and protocols to ensure that every user’s copy of the ledger reflects the current state of the record. That is, it ensures that each node can add data to the ledger and that all the nodes maintain the same copy of the continually updating ledger over time.
+
+* Ensuring a consensus across the network about the state of the ledger is fundamental to the operation of a blockchain system. Without it, no guarantee would exist that your version of the ledger matched anyone else's version. You therefore wouldn’t be able to trust the system as a whole.
+
+  * For example, would a seller trust the sale of their house to a blockchain system if they couldn't guarantee that the buyer had sufficient funds?
+
+  * To trust the system, all the participants must agree on the state of the ledger across the system.
+
+> Slack out the following links so that students can learn more about the types of blockchain problems that consensus mechanisms seek to solve: [The Byzantine Generals Problem](https://lamport.azurewebsites.net/pubs/the-byz-generals.pdf) and [Irreversible Transactions](https://en.bitcoin.it/wiki/Irreversible_Transactions)
+
+* Consensus mechanisms use protocols and algorithms to achieve a consensus about the state of the system.
+
+* While many approaches exist for reaching a consensus, two of the most common consensus mechanisms are **proof of work** and **proof of stake**.
+
+* The proof of work consensus mechanism forms the basis of trust for most existing blockchains. Though highly effective, proof of work consumes quite a bit of computational power to accomplish, and therefore requires considerable computing resources and a lot of energy to run them.
+
+* While proof of stake requires less computational energy than proof of work, it’s a newer algorithm that has not yet been implemented on the Ethereum network but is in the development stage for Ethereum.
+
+* Proof of stake is currently used on other blockchains, such as Cardono and Tezos.
+
+Slack out the following link so that students can learn more about proof of work and proof of stake: [Consensus Mechanisms page in the Ethereum documentation](https://ethereum.org/en/developers/docs/consensus-mechanisms/).
+
+Explain to students that they will learn to integrate a proof of work consensus mechanism into their blockchain ledger in the next section.
+
+Depending on the time remaining, ask students some or all of the following questions to confirm their understanding of the components of the blockchain system.
+
+**Question:** How do centralized networks and decentralized networks differ in terms of how transactions are authorized?
+
+  * **Answer:** A centralized system has a single, central authority that is responsible for ensuring the authorization and legitimacy of all transactions on the network. In a decentralized system, all of the members, or nodes, that participate in the system are responsible for transaction authorization and legitimacy.
+
+**Question:** What is the name of the device or computer that participants use to access and add data to the decentralized system, or blockchain?
+
+  * **Answer:** The computer used to access the decentralized system is called a node.
+
+**Question:** What are the two primary responsibilities of the blockchain node?
+
+  * **Answer:** The two responsibilities are (1) storing a complete copy of the blockchain and (2) running the software that establishes the operation of the system and the communication between the nodes.
+
+**Question:** What term is used to describe the group of distributed computers that run the software that powers the decentralized system?
+
+  * **Answer:** The group of distributed computers is referred to as the blockchain network.
+
+**Question:** What term is used to define the logic required to maintain the operation, communication, and rules for the blockchain network? What is this logic used to determine?
+
+  * **Answer:** The logic required to maintain the blockchain is referred to as **governance**. Governance determines how copies of the ledger are distributed, who gets to add new records to the ledger, and how copies of the ledger are synchronized across participating nodes.
+
+**Question:** What are the four main types of blockchain networks?
+
+  * **Answer:** The four main types of blockchain networks are:
+
+    1. **Public:** A public, or permissionless, blockchain has no access restrictions. Anyone with an internet connection can send transactions and validate them. Governance is established through participant consensus.
+
+    2. **Private:** A private, or permissioned, blockchain is the opposite—that is, the blockchain users must be invited. In this case, the controlling party, or creator of the blockchain, establishes the rules of governance.
+
+    3. **Semiprivate:** A semiprivate, or hybrid, blockchain combines the two in some way.
+
+    4. **Consortium:** A consortium blockchain has restricted access, like a semiprivate blockchain, but consists of two or more groups working together for a common purpose.
+
+**Question:** What is the primary goal of a consensus protocol? What are two most common consensus protocols used to update records and maintain the current state of the blockchain network?
+
+  * **Answer:** The primary goal of a consensus protocol is to achieve a consensus across participating nodes regarding the state of the blockchain ledger. The two most common consensus protocols are proof of work and proof of stake.
+
+**Question:** What is a common criticism of the proof of work consensus protocol?
+
+  * **Answer:** Performing proof of work requires tremendous computational power. Therefore, it requires a lot of resources and energy.
 
 ---
 
-### 4. Instructor Do: Consensus Algorithm Review (5 min)
+### 3. Instructor Do: Hash Guesser (15 min)
 
-Ask the students the following questions:
+**Corresponding Activity** [Hash Guesser](Activities/01-Ins_Hash_Guesser)
 
-* What is the biggest strength of:
+In this section, you will discuss the relationship between the hash code and the proof of work consensus mechanism. This section will end with a demonstration of the code for a hash guesser program.
 
-  * Proof of Work
+Use the `app.py` file located in the `Unsolved` folder to live-code the program for students.
 
-    **Answer**: Most secure, most decentralized.
+**Files:**
 
-  * Proof of Stake
+[Starter file](Activities/01-Ins_Hash_Guesser/Unsolved/hash_guesser.py)
 
-    **Answer**: Similar security as PoW without the electricity cost.
+[Solution file](Activities/01-Ins_Hash_Guesser/Solved/hash_guesser.py)
 
-  * Proof of Authority
+#### Proof of Work in a Blockchain System
 
-    **Answer**: Fastest, great for testing and development.
+Start by explaining the role that proof of work plays in the blockchain ecosystem.
 
-* What is the biggest weakness of:
+* A computer can quickly complete the process of recording data to a block and then adding that block to the chain.
 
-  * Proof of Work
+* The proof of work consensus mechanism is used to make it more difficult to add a block to the chain. This makes it less worthwhile to try to cheat the system.
 
-    **Answer**: High energy/computational cost.
+* One of the most popular consensus algorithms today, proof of work was originally based on the **hashcash** algorithm, which was created in the 1990s to combat email spam.
 
-  * Proof of Stake
+  * The idea behind an algorithm like this is to protect a system from spammers and malicious hackers.
 
-    **Answer**: "Nothing at Stake," potential wealth distribution issues, incentive structure can be taken advantage of.
+  * Consider the original use case for hashcash: email. Hashcash requires a computer to solve a computational problem before sending an email. When you send regular emails for work or for keeping in touch with friends, solving the problem requires such a small amount of computational energy that you’re not likely to notice your computer doing it. Now, imagine that you’re a spammer who wants to send millions of emails every day. What was a negligible amount of energy suddenly becomes very expensive.
 
-  * Proof of Authority
+  * In this case, the economic incentive is designed to allow authorized users to use the system without a problem but to make it hard for malicious users to ruin the system for everyone else. Blockchain applies this same concept.
 
-    **Answer**: Highly centralized, least secure.
+Next, illustrate how proof of work functions in a blockchain.
 
-Congratulate the class on learning some of the most important and fundamental algorithms that blockchains are using today. Now, we can take this knowledge and start to build our blockchain.
+* In a blockchain scenario, the required extra work involves a guessing game for the participants.
 
-Finally, highlight to students the following:
+* Specifically, the algorithm chooses a random number. Then, each participant guesses a number until someone guesses correctly. The first participant to guess the correct number gets to add a block to the chain.
 
-* Many computer scientists and mathematicians around the globe are working very hard to solve these problems.
+> **Note:** Remind students that a random number guesser was used to determine which group mined the transactions in the Peoplechain activity from the first blockchain lesson. The group that guessed the instructor-generated number won the privilege of mining transactions to the chain.
 
-* Understanding fundamentally how these algorithms work allows you to understand the rest of the blockchain community and why individual design decisions are being made, and what makes blockchains different from each other.
+* Whoever completes the work first wins the privilege of adding a new data block to the chain.
 
-Answer any questions before moving on.
+* Why is adding a new block to the chain considered a privilege? Because the person who adds the block receives compensation for their efforts in the form of a block reward.
+
+* A **block reward** is a transaction that allocates funds to the user who spent the energy to build that block. The source of these funds varies across blockchains. In the Bitcoin blockchain, the funds are allocated by the chain itself. On the Ethereum blockchain, some of the block reward funds are allocated through fees charged to each transaction.
+
+* In blockchain, the process of doing work to add a block to the chain is called **mining**. And, the participants who want to add a new block are called **miners**.
+
+Explain that, at a high level, the proof of work process is as follows:
+
+  1. The system sets the difficulty of the work that’s required to mine a block. The difficulty determines how much effort, or computational power, will be required to complete the necessary work.
+
+  2. The participants compete to be the first to finish the work.
+
+  3. The first to finish gets to add a record to the ledger.
+
+Break this down for the students further.
+
+* In the proof of work algorithms that blockchains like Bitcoin and Ethereum use, the algorithms require miners to generate a cryptographic hash for the previous block on the chain that contains a specific pattern.
+
+* Calculating the hash for a block is a trivial task for most computers. So, the proof of work algorithm adds difficulty in the following way: it requires miners to find a set of inputs to include in their blocks that results in a specific pattern in the block hash.
+
+* The pattern that the blockchain system usually requires is a certain number of zeros at the beginning of the block hash.
+
+Navigate to the slide showing a hash code beginning with four zeros, similar to the following:
+
+  ```text
+  00003fa996ced47773f2dea29cce9b11f951e6dafe321a84ac7d32791c3b4660
+  ```
+
+* Without an enormous amount of luck, our block hash won't have those four zeros. So, the data attributes in the block will need to be changed until the block hash begins with four zeros. There is a way for miners to do this without compromising the integrity of either the transaction or the other data that the block stores.
+
+* The computer can go through many changes and hashes before reaching a set of inputs that creates a block hash with the correct pattern.
+
+* The first miner to find the input change that results in the correct pattern for the block hash wins the privilege of adding a new block to the chain.
+
+Demonstrate how this hash guessing approach works in code.
+
+Start by creating the required code outside of a block just to discover how it works. Later you'll create a version that works with our `PyChain` blockchain.
+
+#### Generate the Correct Hash Pattern
+
+Start by building the hashing function for a numerical input. To do so, we’ll use the [hashlib library from PyPi](https://pypi.org/project/hashlib/) and incorporate a function called `hash_number`, as the following code shows:
+
+  ```python
+  # Imports
+  import hashlib
+
+  # A hashing function
+  def hash_number(number):
+      sha = hashlib.sha256()
+      value = str(number).encode()
+      sha.update(value)
+      return sha.hexdigest()
+  ```
+
+* This code uses the `sha256` function from hashlib to convert a number to a hash code.
+
+* The `encode` function converts the number from human-readable to computer-readable syntax.
+
+Next, test the function by using a `count` variable that is set to 0, as the following code shows:
+
+  ```python
+  count = 0
+  hash = hash_number(count)
+  print(f"The first hash is {hash}")
+  ```
+
+Navigate to a terminal instance, activate the Conda environment, and run the code, highlighting the resulting hash (which should appear something like the following):
+
+  ```shell
+  The first hash is 5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9
+  ```
+
+Next, write code that checks whether the resulting hash string starts with four zeros:
+
+  ```python
+  while not hash.startswith("0000"):
+      count += 1
+      hash = hash_number(count)
+
+  print(f"Found a hash with four zeros after {count} attempts")
+  print(hash)
+  ```
+
+* The [`startswith` function](https://docs.python.org/3/library/stdtypes.html#str.startswith) checks for a pattern at the start of any text string. It returns `True` if it finds the pattern at the start of the string. It returns `False` otherwise.
+
+* The code also uses a `while` loop statement to continue looping through the code, for as long as the hash does not start with four zeros.
+
+* Inside the `while` loop, the `count` code increments by 1 each time the `while` loop runs, calculating a new hash for the updated count. This is how the value of the input is changed until a hash with the desired pattern is achieved.
+
+Run this code for the students in the terminal to demonstrate the final result. A statement similar to the following should appear:
+
+  ```shell
+  The first hash is 5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9
+  Found a hash with four zeros after 88484 attempts
+  ```
+
+Now a TA should slack the `app.py` file from the `Solved` folder to the students: [Solution file](Activities/01-Ins_Hash_Guesser/Solved/hash_guesser.py)
+
+Instruct students to run the code on their own machines, adjusting the number of zeros associated with the `startswith` function.
+
+TAs should be available to troubleshoot any issues with running the file. (**Note:** The most common issue is that the Conda development environment is not activated.)
+
+After a couple of minutes, ask the students if they noticed anything when the number of zeros was altered.
+
+* The more zeros that are required, the more attempts it takes for the algorithm to find the matching pattern.
+
+* This is the key to proof of work—the challenge and computational power of finding the hash that matches the required pattern.
+
+Explain to students that the first step toward integrating proof of work into our PyChain is to incorporate hashing into the Block data class.
+
+Ask if students have any questions about the hash guesser code before moving on.
 
 ---
 
-### 5. Instructor Do: Creating a Genesis Block Demo (10 min)
+### 4. Everyone Do: Add Hashing to a Block (20 min)
 
-In this activity, you will be demonstrating the generation of a genesis block using the `puppeth` tool bundled with the Go Ethereum (`geth`) tool.
+**Corresponding Activity** [Add Hashing to a Block](Activities/02-Evr_Add_Hashing_to_a_Block)
 
-Explain to students that now we are going to build our blockchain. We will start building the first block of the chain, where we will decide on which consensus algorithm to pick and configure the network.
+In this section, you will work with the students to add a `nonce` to the Block data class, which is part of the process of implementing proof of work into the PyChain application.
 
-Before doing so, we need to retrieve our public and private address of the wallet that will be prefunded during this exercise.
+Slack out the starter file so the students can code along.
 
+**Files:**
 
+[Starter file](Activities/02-Evr_Add_Hashing_to_a_Block/Unsolved/app.py)
 
-* Open up MyCrypto and be sure the `Kovan` network is selected. 
+[Solution file](Activities/02-Evr_Add_Hashing_to_a_Block/Solved/app.py)
 
- ![Verify Kovan network](Images/verify-kovan.gif)
+Start by explaining that a proof of work algorithm requires a certain computation to complete before it allows a new block to be added to the chain.
 
-* Unlock your wallet using your mnemonic phrase and choose an address you want to to use to be pre-funded by your chain. Be sure to copy and store this address into a separate file as we will need this in a bit once we create our blockchain.
+* The proof of work algorithm sets a difficulty level on the network by setting the difficulty of the required computation.
 
-* In the "Select" dropdown list, choose `Wallet Info`.
+* This is how a blockchain system controls the amount of time it takes to mine new blocks.
 
-* Click on the eye icon next to the `Private Key` field, and copy and paste the private key of the wallet. Copy and store this address as well, since we'll need it in a bit.
+* Adjusting the difficulty of the required work affects the time it takes to complete the work.
 
-![Get private key](Images/get-private-key.gif)
+* Blockchains use this trick to adjust the mining rate of the system. By adjusting the difficulty, they can speed up or slow down, depending on how quickly new blocks get mined.
 
+Explain that, in this part of the lesson, we’ll set and adjust the difficulty of the mining process as it relates to the Block class from the PyChain ledger. This, in turn, will allow us to speed up or slow down the rate at which blocks can be mined.
 
-Now introduce the Go Ethereum tool to the class and highlight the following:
+Open the  [starter file](Activities/02-Evr_Add_Hashing_to_a_Block/Unsolved/app.py) and direct students to do the same. Tell them to code along on their own computers while you demonstrate.
 
-* The Go Ethereum tool is one of the three original implementations of the Ethereum protocol.
+Take a couple of minutes to review the current hashing function for the Block class from the PyChain application.
 
-* It is written in the Go programming language, fully open source, and licensed under the GNU LGPL v3.
+* This function uses all the data attributes in the block to generate a cryptographic hash of the block.
 
-* We will use the Go Ethereum tool via the `geth` command-line tool.
+* This cryptographic hash is a fixed-length output that represents those exact inputs.
 
-* `geth` is the official Ethereum node software used to initialize, run and manage Ethereum nodes.
+Present the code:
 
-* Don't worry, you don't need to learn Go! You just have to know that it's super fast and has a cute mascot called Gogopher!
+  ```python
+  def hash_block(self):
+      sha = hashlib.sha256()
 
- ![Gogopher](Images/256px-Gogophercolor.png)
+      data = str(self.data).encode()
+      sha.update(data)
 
-Ask the students to recall what a "node" is.
+      creator_id = str(self.creator_id).encode()
+      sha.update(creator_id)
 
-* **Answer**: A participant of the network that keeps a full copy of the blockchain and maintains the consensus rules of the network.
+      timestamp = str(self.timestamp).encode()
+      sha.update(timestamp)
 
-* By default, running `geth` will create a standard Ethereum node that will sync to the main network.
+      prev_hash = str(self.prev_hash).encode()
+      sha.update(prev_hash)
 
-* However, since `geth` comes with a handy tool called `puppeth`, we will create our networks!
+      return sha.hexdigest()
+  ```
 
-Open a terminal window (GitBash in Windows) navigate to your `Blockchain-Tools` folder and type the following command:
+Explain that, to implement proof of work, the `hash_block` function needs to be adjusted.
 
-```bash
-./puppeth
-```
+Add an extra data attribute called a **nonce** to the block class. Define the `nonce` attribute with a data type of `int` and a default value of 0.
 
-This should show the following prompt:
+  ```python
+  nonce: int = 0
+  ```
 
-![puppeth](Images/puppeth.png)
+Explain the concept of a nonce:
 
-Explain to the class that the prompt is saying that this tool can be used to set up a complete Ethereum network ecosystem, including nodes, monitoring tools, and more.
+* The nonce takes the place of the `count` variable from the `hash_guesser` program.
 
-* The Genesis block is the very first block in the chain. It contains the initial rules for the network, like the consensus algorithm and pre-funded accounts.
+* The nonce is added for the purpose of changing the block’s hash. This is how new hashes will be produced until one is generated that meets the system’s requirements- without changing the stored data in the block.
 
-Ask the class to come up with a clever name for your new network. Type in the name, like "puppernet" and hit enter to move forward in the wizard.
+* Nonce stands for “number used once.” The number in this attribute is only used once to generate a hash for the block. If that hash doesn’t meet the requirement, a different number will be used, and so on, until the hash requirement is met.
 
-Type `2` to pick the `Configure new genesis` option, then `1` to `Create new genesis from scratch`:
+Next, adjust the Block's `hash_block` function to include this new data attribute:
 
-![genesis](Images/puppeth-genesis.png)
+  ```python
+  nonce = str(self.nonce).encode()
+  sha.update(nonce)
+  ```
 
-Now you have the option to pick a consensus engine (algorithm) to use.
+* The nonce value can now be hashed and included in the Block's information.
 
-Explain to the class that we will be using Proof of Work.
+The complete `Block` data class is now as follows:
 
-* Note that the network difficulty will be low enough that our computers can mine blocks easily.
+  ```python
+  from dataclasses import dataclass
+  from typing import Any
+  import datetime as datetime
+  import hashlib
 
-Type `1` to choose `Proof of Work` and continue.
+  @dataclass
+  class Block:
+      data: Any
+      creator_id: int
+      prev_hash: str = "0"
+      timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
+      nonce: int = 0
 
-You will be asked to pre-fund accounts. Paste an address from any Ethereum wallet that you control, without the `0x` prefix.
+      def hash_block(self):
+          sha = hashlib.sha256()
 
-Use MyCrypto like from the previous class, and explain to the students that in this step is where we are going to pre-fund any accounts.
+          data = str(self.data).encode()
+          sha.update(data)
 
-* We're going to paste in the address from the wallet we used the on Day 1, and when used on this new network, it will be heavily funded for us to test with.
+          creator_id = str(self.creator_id).encode()
+          sha.update(data)
 
-Once you paste an address and hit enter, hit enter again on the blank `0x` address to continue the prompt.
+          prev_hash = str(self.prev_hash).encode()
+          sha.update(prev_hash)
 
-Continue with the default option for the prompt that asks, `Should the precompile-addresses (0x1 .. 0xff) be pre-funded with 1 wei?` by hitting enter again until you reach the `Chain ID` prompt.
+          timestamp = str(self.timestamp).encode()
+          sha.update(timestamp)
 
-![prefunding accounts](Images/puppeth-prefund.png)
+          nonce = str(self.nonce).encode()
+          sha.update(nonce)
 
-Ask the class to come up with a number to use as a "chain ID" or make one up yourself, like `333`, for example.
+          return sha.hexdigest()
+  ```
 
-Once you enter the chain ID, hit enter, and you should show this success message and redirect to the original prompt.
+Finally, along with the students, test the altered code by creating a test block.
 
-![success](Images/puppeth-success.png)
+Start by creating a `block`, and then run the code in the terminal.
 
-Great! Your genesis configuration is stored in your local home directory.
-We'll export this later. For now, it's time to have the students generate a genesis block.
+  ```python
+  # Create a test block and view the nonce and hash
+  block = Block("test", 1)
+  print(f"The original nonce is: {block.nonce}")
+  print(f"The original block hash is: {block.hash_block()}")
+  ```
 
-Answer any questions before moving on.
+* The original nonce value should be 0 and there should also be a resulting hash for the block.
+
+Now write the code to update the nonce value, leaving the other information the same. The code is as follows:
+
+  ```python
+  # Update the test block and view the nonce and hash
+  block.nonce += 1
+  print(f"The new nonce is now: {block.nonce}")
+  print(f"The new block hash is now: {block.hash_block()}")
+  ```
+
+* Navigate to a terminal instance and run the file, highlighting how the hash codes for the two different nonce values are completely different.
+
+* Stress that this is the nature of hash codes: even slightly different inputs yield completely different hash outputs.
+
+Ask if there are any questions about this initial phase of incorporating proof of work into the PyChain before moving on.
 
 ---
 
-### 6. Students Do: Creating a Genesis Block (10 min)
+### 5. Everyone Do: Integrate Proof of Work into PyChain (20 min)
 
-**Corresponding Activity:** [02-Stu_Genesis_Creation](Activities/02-Stu_Genesis_Creation)
+**Corresponding Activity** [Proof of Work](Activities/03-Evr_Proof_of_Work)
 
-In this activity, students will create their genesis configuration, just like was demonstrated.
+In this section, you will work with the students to integrate a proof of work consensus mechanism into the PyChain application.
 
-Ensure that every student has seen the success message for creating a new genesis configuration.
+Slack the starter file out to students so that they can code along with the activity.
 
-If a student is stuck, have either a TA or fellow student help get them un-stuck.
+**Files:**
 
-Have the TAs circulate and ensure that the students can get to the "successful genesis creation" message.
+[Starter file](Activities/03-Evr_Proof_of_Work/Unsolved/proof_of_work.py)
 
-Once every student has seen the success message, you can move on.
+[Solution file](Activities/03-Evr_Proof_of_Work/Solved/proof_of_work.py)
 
-**Instructions:**
+Explain to students that, in the activity, they will be integrating proof of work functionality into the PyChain application that they developed previously.
 
-* [README.md](Activities/02-Stu_Genesis_Creation/README.md)
+Open the [starter file](Activities/03-Evr_Proof_of_Work/Unsolved/proof_of_work.py) and direct students to do the same. Tell them to code on their own computers while you demonstrate.
+
+Examine the provided code.
+
+* The `Block` class includes the `nonce` variable and the code to hash it.
+
+* The `PyChain` class includes the code to both add a new block to the chain, and to list the chain. This code was created in the prior lesson.
+
+#### Create a proof_of_work Function
+
+Explain that incorporating proof of work functionality into the Pychain requires adding a `proof_of_work` function inside the `PyChain` class. The code is as follows:
+
+  ```python
+  def proof_of_work(self, block):
+      # TODO: Implement proof of work
+      return block
+  ```
+
+* Inside the `PyChain` class, we first need to define a `proof_of_work` method that accepts a block. This block will be the **candidate block**&mdash;that is, the block being created to add to the chain.
+
+* The proof of work algorithm needs to change the block's nonce until it gets a hash that meets the system requirement. (The actual requirement will be coded later).
+
+* Once it gets the correct nonce, the `proof_of_work` function will return the updated block.
+
+Explain that the full code for this `proof_of_work` function will be implemented in a few minutes.
+
+Update the `add_block` method of the `PyChain` class.
+
+  ```python
+  def add_block(self, candidate_block):
+      block = self.proof_of_work(candidate_block)
+      self.chain += [block]
+  ```
+
+* Use the `proof_of_work` function to update the block’s nonce until it gets one that satisfies the proof of work algorithm.
+
+* If this function generates a hash that satisfies the pattern that the proof of work algorithm defines before any other nodes do (that is, if it’s the first node to get the correct number of leading zeros), it will add the updated block to the blockchain.
+
+Confirm for students that the adjusted `PyChain` data class should now appear as follows:
+
+  ```python
+  @dataclass
+  class PyChain:
+      chain: List[Block]
+
+      def proof_of_work(self, block):
+          # TODO: Implement proof of work
+          return block
+
+      def add_block(self, candidate_block):
+          block = self.proof_of_work(candidate_block)
+          self.chain += [block]
+  ```
+
+Explain that in this next step, we will complete the code for the `proof_of_work` function.
+
+#### Code the proof_of_work Function
+
+Update the `proof_of_work` function to check the hash of the candidate block as follows:
+
+  ```python
+  def proof_of_work(self, block):
+      calculated_hash = block.hash_block()
+      return block
+  ```
+
+* Hash the candidate block and check whether this hash meets the system requirement.
+
+* Assign the hash of the candidate block to a variable named `calculated_hash`.
+
+Write the code to check the `calculated_hash` variable against the pattern required by the blockchain. The code is as follows:
+
+  ```python
+  num_of_zeros = "0000"
+
+  while not calculated_hash.startswith(num_of_zeros):
+      block.nonce += 1
+      calculated_hash = block.hash_block()
+
+  return block
+  ```
+
+* Use the `calculated_hash` variable similar to the way it was used in the `hash_guesser` code.
+
+* Run a `while` loop that increments the nonce until it gets a hash that meets the requirement.
+
+* Set the requirement as a hash starting with four zeros.
+
+* Once a nonce is found that results in a hash that meets the requirement, the block is returned, including the updated nonce value.
+
+The current `proof_of_work` method is now as follows:
+
+  ```python
+  def proof_of_work(self, block):
+      calculated_hash = block.hash_block()
+      num_of_zeros = "0000"
+
+      while not calculated_hash.startswith(num_of_zeros):
+          block.nonce += 1
+          calculated_hash = block.hash_block()
+
+      return block
+  ```
+
+Explain to students that one quick additional code change is needed.
+
+* Instead of hard coding four zeros for our hash requirement, a Python trick is used to make it easier to change the difficulty requirement for the blockchain computation. Here’s the code:
+
+  ```python
+  @dataclass
+  class PyChain:
+      chain: List[Block]
+      # Add a difficulty attribute to PyChain
+      difficulty: int = 4
+
+  #Inside proof_of_work, add a num_of_zeros variable
+  num_of_zeros = "0" * self.difficulty
+  ```
+
+* Multiply any Python string by a number: Python will duplicate the string characters that number of times.
+
+* If the string "0" is multiplied by 4, the result is a string of four zeros, or "0000".
+
+* This allows for storage of the system’s difficulty (that is, the number of zeros that a block’s hash must start with) directly in the data class.
+
+* In the `PyChain` data class, a `difficulty` data attribute is created with type `int` with a default value of `4`. This acts as a default value of our difficulty level.
+
+* The difficulty level of the PyChain application can now be dynamically adjusted.
+
+* The complete `PyChain` data class is now as follows:
+
+  ```python
+  @dataclass
+  class PyChain:
+      chain: List[Block]
+      difficulty: int = 4
+
+      def proof_of_work(self, block):
+          calculated_hash = block.hash_block()
+
+          num_of_zeros = "0" * self.difficulty
+
+          while not calculated_hash.startswith(num_of_zeros):
+              block.nonce += 1
+              calculated_hash = block.hash_block()
+
+          return block
+
+      def add_block(self, candidate_block):
+          block = self.proof_of_work(candidate_block)
+          self.chain += [block]
+  ```
+
+Let students know that, with those few lines of code, a proof of work consensus mechanism has just been built into the PyChain application.
+
+Ask for a volunteer to review the high-level steps for the PyChain application, including the proof of work integration. (Assume that the application starts with a call to the `add_block` function.) An acceptable answer would be something similar to the following:
+
+  * Starting at the `add_block` function, the candidate_block goes to the `proof_of_work` function.
+
+  * The `proof_of_work` function passes the `block` to the Block class's  `hash_block` function, where all of the block information, including the `nonce`, are hashed via the `sha256` algorithm. A hash code is returned and assigned to the value `calculated_hash`.
+
+  * The `num_of_zeros` value is established based on the `difficulty` level.
+
+  * The starting values of the `calculated_hash` are compared to the `num_of_zeros` requirement.
+
+  * If the starting values of the `calculated_hash` meet the requirement, the block is returned to the `add_block` function and is written to the chain and the program exits.
+
+  * If the starting values of the `calculated_hash` do not meet the requirement, the nonce value is incremented by 1, a new hash is generated, and the comparison is made again until it does meet the requirement.
+
+Ask students if they have any questions about the code that has just been created.
+
+Now that the `proof_of_work` function has been built, it’s time to test it using a Streamlit application.
 
 ---
 
-### 7. Instructor Do: Creating a Genesis Block Review (5 min)
+### 6. Student Do: Dynamic Difficulty ( 20 min)
 
-Conduct a facilitated discussion by asking the students the following questions:
+**Corresponding Activity** [Dynamic Difficulty](Activities/04-Stu_Dynamic_Difficulty)
 
-* What is important about the genesis block?
+In this activity, students will test the integration of the proof of work consensus mechanism in the PyChain application.
 
-  **Answer**: It contains the initial rules for the blockchain network, like consensus algorithm, pre-funded accounts, etc.
+Slack out the following instructions and starter file to students.
 
-* What is the point of pre-funding accounts in the genesis block?
+**Files:**
 
-  **Answer**: So that we have some crypto to test with right away; otherwise, we'll have to mine it manually (time-consuming).
+[Instructions](Activities/04-Stu_Dynamic_Difficulty/README.md)
 
-* Since we chose **Proof of Work**, what mechanism are we using to create new blocks?
-
-  **Answer**: Mining
-
-Answer any questions before moving on.
+[Starter file](Activities/04-Stu_Dynamic_Difficulty/Unsolved/app.py)
 
 ---
 
-### 8. Instructor Do: Creating two nodes with accounts (10 min)
+### 7. Instructor Do: Review Dynamic Difficulty (10 min)
 
-In this activity, students will learn how to add nodes to our brand new blockchain. It is advised to keep track of the commands you are using in a text file for reference. Alternatively, you can tap into the `bash history`, but the ordering may not be consistent. There are many commands involved with the next few activities, so it is important to keep track of where you are in the process.
+**Corresponding Activity** [Dynamic Difficulty](Activities/04-Stu_Dynamic_Difficulty)
 
-The first step is to export our genesis configuration into a `json` file. Follow the next steps to do so.
+In this review, focus on the role of the proof of work consensus mechanism in adding a block to the chain.
 
-* In the `puppeth` prompt, navigate to the `Manage existing genesis` by typing `2` and hit enter.
+As you are testing the application, Be sure to adjust the difficulty level when testing the application.
 
-* Next, type `2` again to choose the `Export genesis configurations` option, then specifiy 'puppernet' as the directory within the current directory. This will help students keep track of the corresponding files in one directory (and will make it easier to delete these in case they want to recreate their chain):
+If the class is running on time, live code the full solution for the students. If you do not have the full 10 minutes available for the review, use the solution file to highlight the code solutions for the students, and focus on demonstrating the application.
 
- ![export genesis puppeth](Images/exporting_genesis.png)
+> **Note:** Feel free to use the following video to guide your review:
+>
+> [Dynamic Difficulty Solution Walkthrough](https://fast.wistia.net/embed/iframe/nf7i0n0i64)
 
-* This will export several `networkname.json` files -- we only need the first one without `aleth`, `parity`, or `harmony` suffixes. In this demo, we will need the file names `puppernet.json`.
+**Files:**
 
-Explain to students that we can use the `networkname.json` file to initialize any new nodes in the system automatically to grow the network!
+[Instructions](Activities/04-Stu_Dynamic_Difficulty/README.md)
 
-* Now, we need to create at least two nodes to build the chain from the genesis block onward.
+[Solution file](Activities/04-Stu_Dynamic_Difficulty/Solved/app.py)
 
-Exit the `puppeth` prompt by using the `Ctrl+C` keys combination.
+[Starter file](Activities/04-Stu_Dynamic_Difficulty/Unsolved/app.py)
 
-Explain to students that now you will create the first node's data directory using the `geth` command and a couple of command-line flags. Be sure you are under your `Blockchain-Tools` directory and run the following command from the terminal window:
+Start by reviewing the code that is contained within the `app.py` starter file, highlighting the following information:
 
-```bash
-./geth account new --datadir node1
-```
+* The `Block` class contains the `nonce` variable and the code required to hash the value.
 
-Copy the address that is printed into your notes file, and label it "Node 1 Key". You will need this for future reference. You can always fetch the address later by printing the keystore file in the node's folder like so:
+* The `PyChain` class has the `proof_of_work` function declared, but it is not complete.
 
-```bash
-cat node1/keystore/UTC--2019-10-08T20-14-04.346928000Z--959a2bd5da6097bab0c2d98e14ebfa65bed06b1b
-```
+* Explain the role of the [Streamlit `cache` decorator function](https://docs.streamlit.io/en/latest/caching.html#advanced-caching). This function will keep the page from refreshing all of the content when updates are made.
 
-This will output something like:
+  ```python
+  @st.cache(allow_output_mutation=True)
+  ```
 
-```bash
-{"address":"959a2bd5da6097bab0c2d98e14ebfa65bed06b1b","crypto":{"cipher":"aes-128-ctr","ciphertext":"07d7df14c082d8d4d14c7d2877c968a9bb624f398c4b820127dcd8d0dfe62bc1","cipherparams":{"iv":"494ce9a4fb08101a52eb3f60b1b80a2f"},"kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"c6a8ce0ed96bada27cd8e82906a78c795953901e90736170180db97196644052"},"mac":"440e051dd3c0333966a403e8a037c50fa80355ea0a911aa323c0f9ef01214f28"},"id":"0de99a24-763b-4c98-8ed7-115954e6d420","version":3}
-```
+* Based on the Streamlit code, specifically the `setup` function, a "Genesis" block will be created and added to the PyChain when the application is launched.
 
-You can simply copy the `address` property from the JSON keystore. Notice that you can also just copy the address from the end of the file name, since it is appended with the address.
+  ```python
+  def setup():
+      print("Initializing Chain")
+      return PyChain([Block(data="Genesis", creator_id=0)])
 
-Explain to students that you are using the `geth` command here to create a new account in the `node1` folder.
 
-* This is where all data belonging to the first node will reside, and the address that the mining rewards will go.
+  pychain = setup()
+  ```
 
-You will have to enter a password to encrypt the key-pair. Ask the students:
+* There is a Streamlit `button` in place to add a new block to the chain. All of the necessary code is included inside the button function.
 
-* What type of cryptography are we using when we lock the keys with a password?
+Next, complete the code for controlling the level of difficulty associated with the proof of work consensus mechanism.
 
-  **Answer**: Symmetric cryptography!
+Start by creating the `difficulty` data attribute inside the `PyChain` class as follows:
 
-* In this case, we're locking a pair of asymmetric keys with a symmetric password, wild times!
+  ```python
+  # Add a `difficulty` data attribute with a data type of `int` and a default
+  # value of 4.
+  difficulty: int = 4
+  ```
 
-It might be worth mentioning that by doing this, we create a security bottleneck with our password. All a hacker has to do is brute force the password, which is significantly easier than the long private key.
+Inside the `proof_of_work` function, create the variable `num_of_zeros`. Here’s the code:
 
-Explain to students that in a production environment, you would use a hardware wallet. We will explore the different types of wallets in the next unit.
+  ```python
+  # Add a `num_of_zeros` data attribute that multiplies the string value ("0") by the `difficulty` value.
+  num_of_zeros = "0" * self.difficulty
+  ```
 
-Once you successfully create the account, you should see this message:
+* The `self` modifier allows the function to access the PyChain class’s `difficulty` attribute.
 
-![geth new account](Images/geth-account-new.png)
+Pose the following question to students:
 
-Next, create another account using a different `datadir` by running the following command in the terminal window:
+**Question:** What functionality is gained by setting this `difficulty` attribute and adding it to the `proof_of_work` function?
 
-```bash
-./geth account new --datadir node2
-```
+  * **Answer:** The `difficulty` attribute allows us to dynamically control how hard it will be for the `proof_of_work` function to compute a hash code that meets the `num_of_zeros` requirement.
 
-Copy and label your second node's address in your notes file for later.
+Next, ask for a volunteer to provide the code for the Streamlit `slider`. Be sure to add the `slider` to the application `sidebar`. Here’s the code:
 
-Explain to students that you typically would only have one node per machine, but you need to create at least two nodes in your computer to create a blockchain.
+  ```python
+  # Add a Streamlit slider named "Block Difficulty" that allows the user to update a difficulty value. Set this equal to the variable `difficulty`
+  difficulty = st.sidebar.slider("Block Difficulty", 1, 5, 4)
+  ```
 
-* Now we have two folders that each node can use to store its private key and its copy of the blockchain.
+Pose the following question to students:
 
-Explain to students that now is time to initialize and tell the nodes to use our genesis block! Open the terminal window and run the following command to initialize `node1`.
+**Question:** What do the numbers associated with the slide bar indicate?
 
-```bash
-./geth init puppernet/puppernet.json --datadir node1
-```
+  * **Answer:** The range of the slider is from 1 to 5, with the slider starting at a value of 4.
 
-Since you only run the `init` commands once, you do not need to copy these commands into your notes.
+Explain that, with the `difficulty` variable defined by the slider, we now need to connect that variable to the `difficulty` attribute of the PyChain class, so that this slider variable in Streamlit will actually update our blockchain. Here’s the code:
 
-You should see this success message:
+  ```python
+  # Update the `difficulty` data attribute of the `PyChain` data class (`pychain.difficulty`) with this new `difficulty` value
+  pychain.difficulty = difficulty
+  ```
 
-![geth init](Images/geth-init.png)
+With all of the code now in place, navigate to a terminal instance, launch the Streamlit application, and demo the code:
 
-Explain to the class that this node is now initialized. This means that it is using our genesis block as a starting point.
+  ```shell
+  streamlit run app.py
+  ```
 
-Repeat the same process for the second node by running the following command in the terminal window.
+Highlight that the PyChain ledger includes the `Genesis` block as the application is launched. The `prev_hash` value for this block is 0.
 
-```bash
-./geth init puppernet/puppernet.json --datadir node2
-```
+Add a new block to the chain (e.g., Test Block 1). Once the block appears, highlight the values associated with the new block's  `prev_hash` and `nonce` values.
 
-Your directory structure should look something like this:
+Adjust the `difficulty` via the slider to a value of 2 and add a new block to the chain (i.e,. Test Block 2). Point out the new nonce value, which should be much smaller than that associated with Test Block 1.
 
-![directory tree](Images/geth-tree.png)
-
-Explain to students that the chain is ready to be started. Now it's time to have the students initialize their nodes.
-
-Answer any questions before moving on.
-
----
-
-### 9. Students Do: Creating two nodes with accounts (15 min)
-
-**Corresponding Activity:** [03-Stu_Nodes_Accounts](Activities/03-Stu_Nodes_Accounts)
-
-In this activity, students will create their nodes and accounts for their custom blockchain network.
-
-Have the TAs circulate and ensure that students are successfully following the instructions and initializing their nodes.
-
-Ensure that students are copying the necessary information into their
-
-**Instructions:**
-
-* [README.md](Activities/03-Stu_Nodes_Accounts/README.md)
+Before moving on, ask students if they have any questions about how to integrate the proof of work consensus mechanism into the PyChain application.
 
 ---
 
-### 10. Instructor Do: Review Node configuration (15 min)
-
-Use this time to ensure that all students have properly configured two nodes with accounts.
-
-* The student's directory structure should look something like this:
-
-  ![directory tree](Images/geth-tree.png)
-
-* If anyone encounters errors, double-check the following:
-
-  * The network is selected in `puppeth` before exporting the genesis configuration.
-
-  * The `genesis.json` is in the same directory as the node folders, not inside any node folders.
-
-  * The `genesis.json` was exported.
-
-Answer any questions before moving on.
-
----
-### 11. BREAK (40 min)
+### 8. BREAK (15 min)
 
 ---
 
-### 12. Instructor Do: Starting the Blockchain (10 min)
+### 9. Instructor Do: Proof of Work Validation (20 min)
 
-Now it's time to start the chain! In this activity, students will learn how to build their blockchain.
+**Corresponding Activity** [Proof of Work Validator](Activities/05-Ins_Proof_of_Work_Validation)
 
-Open the terminal window (Git Bash in Windows), navigate to your `Blockchain-Tools` folder and launch the first node into mining mode with the following command:
+In this section, you will demonstrate the code to add validation to the PyChain. This is just a demonstration of code that will help students understand how to add validation to PyChain. Not a working application.
 
-```bash
-./geth --datadir node1 --mine --minerthreads 1
-```
+**Files:**
 
-**Note:** Under Microsoft Windows you may see a pop-up window asking for permission from the firewall, be sure you check all the boxes and click on the "Allow access" button.
+[Starter file](Activities/05-Ins_Proof_of_Work_Validation/Unsolved)
 
-**Note:** In the event that your `enode` address ends in an IP address that is _not_ the localhost (127.0.0.1), you may add the `--rpcaddr 127.0.0.1` flag in order to force it to do so.
+[Solution file](Activities/05-Ins_Proof_of_Work_Validation/Solved)
 
-Explain each of the new command-line flags:
+Explain that, although a proof of work consensus mechanism has been added to the PyChain, there is still no way to be 100% sure that the block is actually valid and that the integrity of the chain is intact.
 
-* The `--mine` flag tells the node to mine new blocks.
+* For example, there’s a chance that the miner could have been a bad actor and altered the state of one of the preceding blocks. Or, the miner could claim to have found the right nonce value to generate a hash that matches the requirement but, in reality, they have not done the work.
 
-* The `--minerthreads` flag tells `geth` how many CPU threads, or "workers" to use during mining.
+Explain that part of the goal of the proof of work consensus mechanism is to prevent the rest of the nodes on the network from synchronizing their copies with an invalid copy of the ledger.
 
-* Since our difficulty is low, we can set it to 1.
+* In a blockchain that has multiple participants, all the participants must be able to trust the validity of each new block that gets added to the chain.
 
-You should see the node `Committing new mining work`:
+* To accomplish this, all of the nodes, even those that didn't participate in the competition to write the block, work together to validate the new record in the ledger.
 
-![node mining](Images/mining.png)
+* Luckily for everyone, only the hash code is needed to verify the validity of the new block. Specifically, the block information, which includes the updated nonce value, is hashed to check if it has the correct number of leading zeros. The winning miner already used the nonce that should work, so the validators need to hash that block only once to check its validity.
 
-Copy this command into your notes and label it `Start Node 1`.
+* Unfortunately, without multiple nodes, this type of validation is hard to test! If there is only one node in the system, there are no other nodes to perform the validation. A network with multiple nodes only requires sending the candidate block to each node and having them hash the block to confirm its validity.
 
-Now, this is our miner in the network. Let's launch the second node and configure it to let us talk to the chain!
+> **Note:** Slack out links to the [Bitcoin Wiki proof of work](https://en.bitcoin.it/wiki/Proof_of_work) page and the [Ethereum proof of work](https://ethereum.org/en/developers/docs/consensus-mechanisms/pow/) documentation page so that students can learn more.
 
-Scroll up in the terminal window and copy the entire `enode://` address (including the last `@address:port` segment) of the first node located in the `Started P2P Networking` line:
+Explain that it’s possible to add another useful type of validation to our blockchain, especially in a scenario where the blockchain consists of a single node: validating the full chain, rather than just the new block.
 
-![enodeid](Images/enodeid.png)
+* Besides validating the candidate block, a blockchain system might also want to validate the entire chain—in other words, validate all of the existing records before adding a new block.
 
-* We will need this address to tell the second node where to find the first node.
+* Many ways exist to do this, and each blockchain has its own validation process.
 
-Open another terminal window and navigate to the same directory as before.
+* For the PyChain ledger, the validation that will be added cryptographically links all the blocks in the ledger through their hashes.
 
-Launch the second node, enabling RPC, changing the default port, and passing the `enodeid` of the first node you copied in quotes, the command will vary from OS X to Windows:
+#### Validate the Chain
 
-* Running in OS X:
+Open the [starter file](Activities/05-Ins_Proof_of_Work_Validation/Unsolved) for this demo.
 
- ```bash
- ./geth --datadir node2 --port 30304 --rpc --bootnodes "enode://69994ca26f775569b5cdb4970299c2265f7dcb7714a4ffaf66400f50e5128e79e2ff465731ddf597030f931375aa90f40d6cff7ace0f4afb84ae8de19da047bf@127.0.0.1:30303"
- ```
+Remind students that in our `Block` data class, the hash value of the previous block is already stored in the `prev_hash` data attribute:
 
-* Running in Windows:
+  ```python
+  @dataclass
+  class Block:
+      data: Any
+      creator_id: int
+      timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
+      prev_hash: str = "0"
+      nonce: int = 0
+  ```
 
- ```bash
- ./geth --datadir node2 --port 30304 --rpc --bootnodes "enode://69994ca26f775569b5cdb4970299c2265f7dcb7714a4ffaf66400f50e5128e79e2ff465731ddf597030f931375aa90f40d6cff7ace0f4afb84ae8de19da047bf@127.0.0.1:30303" --ipcdisable
- ```
+Explain that we can manually validate the entire chain by calculating the hash of a block and then checking if the `prev_hash` attribute value in the next block matches.
 
-Explain each of the new command-line flags:
+Navigate to the slide deck image that illustrates this process:
 
-* The `--rpc` flag enables us to talk to our node, which will allow us to use MyCrypto to transact on our chain.
+![An illustration depicts comparing the prev_hash attribute value of Block 1 to the hash of Block 0.](Images/block-validator.png)
 
-* Since the first node's sync port already took up `30303`, we need to change this one to `30304` using `--port`.
+* The Block 0 data can be validated by checking if the `prev_hash` attribute value in Block 1 matches the calculated hash of Block 0.
 
-* The `--bootnodes` flag allows you to pass the network info needed to find other nodes in the blockchain. This will allow us to connect both of our nodes.
+Explain the high-level steps for the eventual PyChain validator:
 
-* In Microsoft Windows, we need to add the flag `--ipcdisable` due to the way Windows spawns new IPC/Unix sockets doesn't allow for having multiple sockets running from `geth` at once. Since we are only using `RCP` we can safely disable the `IPC` sockets.
+1. Hash the first block in the chain.
 
-* The output of the second node should show information about `Importing block segments` and synchronization:
+2. Access the `prev_hash` attribute value from the next block.
 
- ![node sync](Images/node-sync.png)
+3. Compare the two hashes.
 
-Copy this command into your notes and label it `Start Node 2`.
+4. Repeat Steps 1 through 3 for each block in the chain until every block’s `prev_hash` value has been evaluated.
 
-Now it's time to have the students bring their blockchains to life!
+5. If all comparisons result in matches, the entire blockchain is valid. Otherwise, it’s invalid.
 
-**Note**: If you ever encounter strange errors, or need to start over **without** destroying the accounts, run the following command to clear the chain data (this will reset the `enode` addresses as well):
+Ask students if they have any questions about this high-level process.
 
-```bash
-rm -Rf node1/geth node2/geth puppernet
-```
+Next, we’ll implement these steps in code.
 
-This will be a crucial command for assisting students during the next activity. After running this command, you simply need to run another `geth init` on each node, then copy the new `enodeid` for the first node for use in the second node's start command. Everything else should stay the same, since the `genesis.json` contains the same accounts that are still in each node's `node/keystore` folder. Clearing the `node/geth` folder **just** deletes the blockchain data and allows for re-initialization from Block 0. The `enodeid` is the only aspect that will change.
+First, define an `is_valid` method in the `PyChain` data class:
 
-In order to remove the chain data entirely (this is particularly useful if you have to recreate the chain multiple time and don't want to keep track of new names every time), tell the students they can do so in the folder "C:/Users/USERNAME/.puppeth":
+  ```python
+  def is_valid(self):
+  ```
 
- ![node sync](Images/delete_network_ID.gif)
+Next, calculate the hash of the first block.
 
-Answer any questions before moving on.
+To do so, access the first block in the chain.
+
+  ```python
+  block = self.chain[0]
+  ```
+
+* The first block has an index position of 0, the first block can be accessed with `self.chain[0]`
+
+Then, calculate the hash of that first block by calling the `hash_block` method:
+
+  ```python
+  block_hash = block.hash_block()
+  print(block_hash)
+  ```
+
+Explain that this code takes care of Step 1: hash the first block in the chain.
+
+Remind students that the second step in the process is to access the `prev_hash` attribute value in the next block. The third step is to compare the two hashes. Here’s the code:
+
+  ```python
+  next_block = self.chain[1]
+  print(next_block.prev_hash)
+  ```
+
+* To access the second block, use index position 1 in the chain.
+
+* Then access the value that’s stored in that block’s `prev_hash` attribute.
+
+Finally, compare the two hashes, as shown in the following code:
+
+  ```python
+  for block in self.chain[1:]:
+
+      if block_hash != block.prev_hash:
+          print("Blockchain is invalid!")
+          return False
+
+      block_hash = block.hash_block()
+  ```
+
+* The two hashes are compared by manually reviewing the two printed values.
+
+* This completes Steps 2 and 3.
+
+Explain that Step 4 is to repeat Steps 1–3 for each block in the chain.
+
+* To avoid a manual comparison, the code is modified to loop through all the remaining blocks. The loop starts at index position 1 in the chain.
+
+* Then, the loop checks the hash of the previous block to see if it matches the `prev_block` value in the current block.
+
+* If they don't match, the loop will immediately return `False` to alert us that the blockchain is invalid.
+
+* At the end of each time through the loop, we calculate the hash of the current block and store it in `block_hash`. We thus get a new block to compare against during the next loop iteration.
+
+* The loop will check each block, comparing the hash of the block to the following block's `prev_hash` value.
+
+Explain that with Step 4 addressed, we just need to work through Step 5: evaluate the validity of the entire chain. If all the comparisons result in matches, the entire blockchain is declared valid. The code is as follows:
+
+  ```python
+  def is_valid(self):
+      block_hash = self.chain[0].hash_block()
+
+      for block in self.chain[1:]:
+          if block_hash != block.prev_hash:
+              print("Blockchain is invalid!")
+              return False
+
+          block_hash = block.hash_block()
+
+      print("Blockchain is Valid")
+      return True
+  ```
+
+* If all of the block hashes are calculated and compared without returning `False`, the entire chain is valid, and a value of  `True` is returned.
+
+The complete code that’s now associated with our `PyChain` data class is as follows:
+
+  ```python
+  @dataclass
+  class PyChain:
+      chain: List[Block]
+      difficulty: int = 4
+
+      def proof_of_work(self, block):
+          calculated_hash = block.hash_block()
+          num_of_zeros = "0" * self.difficulty
+
+          while not calculated_hash.startswith(num_of_zeros):
+              block.nonce += 1
+              calculated_hash = block.hash_block()
+          print("Wining Hash", calculated_hash)
+
+          return block
+
+      def add_block(self, candidate_block):
+          block = self.proof_of_work(candidate_block)
+          self.chain += [block]
+
+      def is_valid(self):
+          block_hash = self.chain[0].hash_block()
+
+          for block in self.chain[1:]:
+              if block_hash != block.prev_hash:
+                  print("Blockchain is invalid!")
+                  return False
+
+              block_hash = block.hash_block()
+
+          print("Blockchain is Valid")
+          return True
+  ```
+
+Ask the students if they have any questions about the code to validate a single-node blockchain.
+
+Tell students that, in the next activity, they’ll have the opportunity to test the validation functionality. The activity also incorporates Streamlit.
 
 ---
 
-### 13. Students Do: Bringing the blockchain to life (15 min)
+### 10. Student Do: Validating the Blockchain (20 min)
 
-**Corresponding Activity:** [04-Stu_Starting_Chain](Activities/04-Stu_Starting_Chain)
+**Corresponding Activity:** [Validating the Blockchain](Activities/06-Stu_Validating_the_Blockchain)
 
-In this activity, students will launch their chains using the same techniques presented in the demo.
+In this activity, students will use Streamlit to test the validation functionality associated with the PyChain.
 
-Have the TAs circulate and ensure that students can start their chains and mine blocks.
+**Files:**
 
-Ensure that students are keeping track of the commands they run to start each node in their notes file for ease of reference.
+[Instructions](Activities/06-Stu_Validating_the_Blockchain/README.md)
 
-If students encounter errors, have them enter the command to clear the chain data without clearing the accounts:
-
-```bash
-rm -Rf node1/geth node2/geth puppernet
-```
-
-In order to remove the chain data entirely (this is particularly useful if you have to recreate the chain multiple time and don't want to keep track of new names every time), tell the students they can do so in the folder "C:/Users/USERNAME/.puppeth":
-
- ![node sync](Images/delete_network_ID.gif)
-
-
-
-**Instructions:**
-
-* [README.md](Activities/04-Stu_Starting_Chain/README.md)
+[Starter file](Activities/06-Stu_Validating_the_Blockchain/Unsolved/app.py)
 
 ---
 
-### 14. Instructor Do: Ensuring Block Production (15 min)
+### 11. Instructor Do: Review Validating the Blockchain (10 min)
 
-Take this time to ensure that every student is successfully mining blocks.
+**Corresponding Activity:** [Validating the Blockchain](Activities/06-Stu_Validating_the_Blockchain)
 
-Ensure that:
+The goal of this part of the lesson is to review the entire PyChain application with the students to confirm they understand the functionality of the blockchain.
 
-* The `--mining` flag is set on the first node.
+> **Note:** Feel free to use the following video to guide your review:
+>
+> [Validating the Blockchain Solution Walkthrough](https://fast.wistia.net/embed/iframe/64lpn3rnqb)
 
-* The `--minerthreads` flag is set to at least 1 on the first node.
+Time permitting, live code the activity for the students. If time is short, review the solution code and then run the application by using Streamlit.
 
-* The `enode://` address of the **first** node is copied into the **second** node's `--bootnodes` flag in quotes.
+**Files:**
 
-* The firewall of the student's machine is allowing `geth` to bind to the proper ports, especially in Windows.
+[Instructions](Activities/06-Stu_Validating_the_Blockchain/README.md)
 
-* The `--port` on the second node is set to something different from the first.
+[Starter file](Activities/06-Stu_Validating_the_Blockchain/Unsolved/app.py)
 
-* The default sync port is `30303`, so recommend `30304` for the second node.
+[Solution file](Activities/06-Stu_Validating_the_Blockchain/Solved/app.py)
 
-* The `--rpc` flag is enabled on the second node. This will be necessary to connect MyCrypto to the blockchain in the next activity.
+Open the starter file and review the provided code.
 
-* In Microsoft Windows, the flag `--ipcdisable` should be added.
+* The `app.py` file includes the full `Block` class. The `PyChain` class includes the `proof_of_work` function that was created in the prior activity.
 
-Answer any questions before moving on.
+* The `PyChain` class also includes the `is_valid` function declaration, but almost no contents. Part of the task is to build out that functionality.
+
+* The Streamlit code includes the `difficulty` slider and the "Add Block" button.
+
+* It looks like a button will need to be added to invoke the `is_valid` function from the `PyChain` class.
+
+Begin the coding portion of the review with building out the `is_valid` function contained inside the `PyChain` class.
+
+The first task is to hash the first block in the chain by using the following code:
+
+  ```python
+  # Add the code to generate the hash of the first block in the chain.
+  # Set the hash equal to a variable called block_hash
+  # Hint - The first block in the chain is at index position 0.
+  block_hash = self.chain[0].hash_block()
+  ```
+
+* To access the chain, we use the `self` keyword.
+
+* The first block in the chain is accessed through index position 0.
+
+* Once the block is accessed, the next step is to call the Block's `hash_block` function.
+
+Next, write the code that creates the for loop, which is as follows:
+
+  ```python
+  for block in self.chain[1:]:
+  ```
+
+* The loop starts with the second block in the chain, index position 1, and includes all other blocks.
+
+Then, write the code that compares the hash of the first block (index 0) to the `prev_hash` value contained in the second block (index 1):
+
+  ```python
+  # Code an if statement that compares the block_hash of the
+  # previous block to the prev_hash value of the current block
+  # If the two hashes are NOT equal, print a statement that says
+  # "Blockchain is invalid", and then return the value False
+  if block_hash != block.prev_hash:
+      print("Blockchain is invalid!")
+      return False
+  ```
+
+* If the two hash values are NOT equal, the block will be deemed invalid—thus the print statement and the return value of `False`.
+
+* Once an invalid comparison is found, there is no need to continue through the loop, so the return value forces the loop to exit.
+
+Finally, write the code that hashes the current block and sets that value equal to the variable `block_hash`:
+
+  ```python
+  # Set the block_hash value equal to the hashed value of the current
+  # block
+  block_hash = block.hash_block()
+  ```
+
+* This sets the stage for the next comparison between blocks (i.e., index position 1 to 2, and 2 to 3, etc.)
+
+Point out that all of the block hashes match the `prev_hash` value of the next block, which indicates that the blockchain is valid.
+
+With the `is_valid` function complete, turn your attention to creating the Streamlit validation button.
+
+Ask a student to volunteer the code for creating a Streamlit button, which is as follows:
+
+  ```python
+  # Add a button with the text “Validate Blockchain” to your Streamlit interface.
+  if st.button("Validate Blockchain"):
+  ```
+
+Next, code what action the button will take when pressed:
+
+  ```python
+  # Call the `is_valid` method of the `PyChain` data class and `write` the
+  # result to the Streamlit interface
+  st.write(pychain.is_valid())
+  ```
+
+* The function of the button is to access PyChain's `is_valid` function.
+
+* Based on the way the `is_valid` function is written, two things are going to happen:
+
+  1. A sentence will appear in the terminal that tells us if the PyChain is valid or invalid.
+
+  2. Either `True` or `False` will be returned.
+
+* We want to know the outcome of the validation, so `st.write` is used to display the returned value to the screen for the application’s user.
+
+With all of the code in place, navigate to your terminal instance and run the application.
+
+Start the demonstration by adding two blocks to the chain (possible suggestions for input text are “Test Block 1” and “Test Block 2”). As you are adding these blocks, be sure to adjust the `difficulty` slider to demonstrate how altering the level of difficulty changes the time associated with mining each of the blocks.
+
+Then press the validation button. Point out where `True` prints to the screen and where the `Blockchain is Valid` statement prints to the terminal.
+
+Now, recap everything students learned today about the blockchain validation process:
+
+* Hashing
+
+* The role of the nonce value and difficulty metric
+
+* Proof of work consensus mechanism
+
+* Blockchain validation
+
+Ask students if they have any questions about the material, particularly proof of work and validation.
+
+Let them know that it’s a huge accomplishment to work through all of these blockchain basics. They’ll put all of this information to use as they begin to work with the Ethereum blockchain in the next unit.
+
+* The PyChain application mirrored a centralized blockchain: a single node creates a transaction that also becomes a block; the block is verified through proof of work; multiple blocks build the chain; and the chain can be verified through each block's hash.
+
+* The next unit will explore a decentralized blockchain, specifically the Ethereum blockchain, that consists of multiple users, or nodes.
+
+* Additionally, blocks will consist of multiple transactions.
+
+* That being said, the overarching functionality is the same: users create transactions; transactions make up blocks; proof of work is used to verify transactions and build blocks; and a validation process ensures the integrity of the blockchain.
 
 ---
 
-### 15. Instructor Do: Transacting on the chain (10 min)
+### 12. Instructor Do: Structured Review (35 min)
 
-In this activity, students will learn how to connect MyCrypto to the chain we created and send a transaction.
+> **Note:** If you are teaching this lesson on a weeknight, please save this 35-minute review for the next Saturday class.
 
-Explain to students that now you are going to connect MyCrypto with the blockchain you created. 
+Please use the entire time to review questions with the students before officially ending class.
 
-* In the left pane on MyCrypto, click "Change Network" at the bottom left:
+Suggested Format:
 
-* Click on "Add Custom Node", then add the custom network information that was set in the genesis (i.e. the name of the network and the network ID)
+* Ask students for specific activities to revisit.
 
-![change network](Images/custom_node_setup.gif)
+* Revisit key activities for the homework.
 
-* Ensure that you scroll down to choose `Custom` in the "Network" setting to reveal more options like `Chain ID`:
+* Allow students to start the homework with extra TA support.
 
- ![custom network](Images/custom-network.png)
-
-Explain to students that ETH still denominates the currency since we never changed that, type `ETH` in the "Currency" setting.
-
-* The chain ID must match what you came up with earlier.
-
-* The URL is pointing to the default RPC port on your local machine. Everyone should use this same URL: `http://127.0.0.1:8545`.
-
-* Click on the "Save & Use Custom Node" button, to use the network.
-
-We are now going to switch to our previously created network. It is recommended that before doing so, you restart the MyCrypto app (as the app sometimes won't properly switch networks but instead just shows "Connecting...").
-
-To do so, click on 'Change Network' again as before. Now your previously created node should be visible (below it is 'fintech11282020'). Be sure to click the down arrow next to the name of the network first, and then on the checkbox to the left of the name as illustrated below.
-
-![Switch Wallet](Images/switching_network.gif)
-
-Now are are ready to login to our wallet. Because using mnemonic phrases on custom blockchain networks is not supported by MyCrypto, we need to use the private key address associated with the public address we used when we created the blockchain (notice that the Mnemonic Phrase button is grayed out). 
-
-Click on the "Private Key" option to continue.
-
-A new window will pop-up, paste the private key of the pre-fund wallet and click on the "Unlock" button to continue.
-
-
-![Switch Wallet](Images/logging_into_wallet.gif))
-
-
-* Looks like we're filthy rich! This is the balance that was pre-funded for this account in the genesis configuration; however, these millions of ETH tokens are just for testing purposes.
-
- ![prefunded account](Images/prefunded-account.png)
-
-Explain to students that now we're going to send a transaction to ourselves to test it out. Follow the next steps.
-
-* Copy the pre-fund address into the "To Address" field, then fill in an arbitrary amount of ETH:
-
- ![transaction send](Images/transaction-send.png)
-
-* Confirm the transaction by clicking "Send Transaction", and the "Send" button in the pop-up window.
-
- ![Send transaction](Images/send-transaction.gif)
-
-* Click the `Check TX Status` when the green message pops up, confirm the logout:
-
- ![check tx](Images/check-tx-status.png)
-
-* You should see the transaction go from `Pending` to `Successful` in around the same blocktime you set in the genesis.
-
-* You can click the `Check TX Status` button to update the status.
-
- ![successful transaction](Images/transaction-status.png)
-
-Congratulations, that was the first transaction send on this blockchain network! Now it's time for the students to do the same.
-
-
-**Note**:  If you ever need to reset MyCrypto (e.g. if you want to use the same network ID again) you can do so via the Developer tools under the Application tab:
-
-
- ![successful transaction](Images/reset_my_crypto.gif)
-
+Take your time on these questions! This is a great time to reinforce concepts and address misunderstandings.
 
 ---
 
-### 16. Students Do: Transacting on their chains (10 min)
-
-**Corresponding Activity:** [05-Stu_Transact](Activities/05-Stu_Transact)
-
-In this activity, students will to connect MyCrypto to their chain and send a transaction!
-
-Have the TAs circulate and ensure that students are successfully connecting MyCrypto to their second RPC-enabled node and sending a transaction from a pre-funded account.
-
-Take this time to troubleshoot and ensure that the students are successfully transacting.
-
-Ensure that:
-
-* Students are connecting MyCrypto to `http://127.0.0.1:8545` in the custom network.
-
-* The chain ID matches their genesis configuration.
-
-* The account being used is the one that the student pre-funded in their genesis configuration.
-
-* Their chain is still running:
-
-  * `node1` is mining.
-
-  * `node2` is RPC enabled.
-
-**Instructions:**
-
-* [README.md](Activities/05-Stu_Transact/README.md)
+## End Class
 
 ---
-
-### 17. Instructor Do: The Career Team (35 min)
-
-**Note**: If you are teaching this lesson on a weeknight, save this section for the next Saturday class.
-
-**A note on skill diversity**: The FinTech student demographic is highly diverse. It consists of students with a high degree of financial background, students with some programming experience, and students with little or no experience in either field. Because of this, students may complete different activities during this section.
-
-#### 17.1 Instructor Do: FinTech and LinkedIn Profiles (5 min)
-
-* Whether students are transitioning into a career in FinTech or already work in FinTech, they will need to update their LinkedIn profiles with the new skillset that they’ve acquired in class. The FinTech industry is relatively new, so the majority of employers look for candidates who have a data background and a passion for finance when hiring. If you can display this on your LinkedIn profile, you are more likely to get noticed by recruiters.
-
-* Ask the class the following questions (☝️) and call on students for the answers (🙋):
-
-  * ☝️ Why is a LinkedIn profile so important?
-
-  * 🙋 Recruiters and prospective employers will use to both find candidates and review candidates.
-
-  * ☝️ Who can we submit our LinkedIn profile to for review?
-
-  * 🙋 Career Material Advisor 
-
-  * ☝️ Where can we submit this to a Career Material Advisor 
-
-  * 🙋 BootcampSpot
-
-* Check who already has a resume submitted.
-
-  * ☝️ Who has completed their LinkedIn profile and already submitted it to a Career Material Advisor on BootcampSpot?
-
-    * 🙋 If students have not created a LinkedIn profile, they should follow the instructor-led lesson plan from Section 17.2
-
-    * 🙋 If students have created a LinkedIn profile, but not yet submitted it to a Career Material Advisor, they should submit it online and then skip to the BONUS activity at the end of the lesson plan.
-
-    * 🙋 If students have created a resume and already submitted it, they should skip to the BONUS activity.
-
-#### 17.2 Instructor Do: FinTech and LinkedIn Profiles (10 min)
-
-* You might use your own LinkedIn profile as an example or select one that you think is a good candidate with the following criteria. Alternatively, you may use this example account: [https://www.linkedin.com/in/george*smith-401147bb/](https://www.linkedin.com/in/george-smith-401147bb/)
-
-* Run through each of the sections and use the following comments to demonstrate what makes an employer-ready LinkedIn profile:
-
-  * **Profile picture:** Every student should have a profile picture on their LinkedIn. Each profile picture should follow the following criteria:
-
-    * Solid background: A solid background promotes professionalism. White helps the candidate stick out. Stay away from darker colors like black or dark reds and blues.
-
-    * Approachable pose: Make sure candidates look approachable. A smile in a profile picture means recruiters are more likely to respond because they see someone who can be a part of the team they are building.
-
-    * Size: All LinkedIn pictures should be 400x400 pixels to fit properly.
-
-* **Career summary:** A career summary is a great place for students to introduce their passion for the FinTech industry. Most employers are looking for candidates who have a strong data background and an affinity for finance. A career summary has the following components:
-
-  * Introduction to the candidate’s professional background.
-
-  * Experience level.
-
-  * The value the candidate hopes to bring to the team.
-
-  * A demonstration of the candidate’s passion for finance.
-
-  * The following career summary covers the bullet points mentioned above. Feel free to break down the career summary and match up each bullet point to each section of the career summary:
-
-  > Data analyst with a passion and talent for machine learning, application building, algorithm analysis, and analytical skills. Specializes in finance and analytic trends ranging from startups to Fortune 500 companies, including Bank of America and Google. Creative thinker with a love for finance who hopes to help any company make data-driven decisions that are best for product growth.
-
-* **Work experience:** Students might have questions about how to word their previous work experience onto a LinkedIn profile. This answer will vary based on the type of student.
-
-  * Transitioning from a different career: A student who is completely new to the FinTech industry is going to want to focus on the projects that are being done in class as their professional background. While interviewing, they can refer to their classroom projects as projects.
-
-  * Previous FinTech experience: An experienced student will want to add to the skill set already on their LinkedIn profiles by highlighting projects and emphasizing new technologies they might not have previously included. They also might want to add sentences that revolve around a passion for finance.
-
-* **Education:** It’s important to add certifications and education to a LinkedIn profile. Students should include the following components:
-
-    * School name
-
-    * Degree or certification received
-
-    * Dates
-
-* **Skills:** The skills section also should include keywords that can help recruiters find candidate profiles.
-
-  * Make sure that students add all the tech skills that they are comfortable with adding to their LinkedIn.
-
-  * The skills below are tech skills that they will have acquired by the end of the class.
-
-  _Python, Python APIs, Python Visualization libraries, Plotly.py, time series analysis and prediction, SQL, natural language processing, Amazon Web Services, SageMaker, Lex, algorithmic trading (trading bot), machine learning, Scikit-Learn, robo advising, blockchain, cryptocurrency, blockchain with Python, Solidity, smart contracts._
-
-#### 17.3 Student Do: LinkedIn Update
-
-* Give students 20 minutes to open up their LinkedIn profiles and make any updates that need to be made. After they’ve updated their profiles, have them connect to at least five people in the class.
-
-* Encourage students to write recommendations for their peers they have already worked with on a project.
-
-* Once students feel confident in their LinkedIn profiles, have them submit their profiles for review by a Career Material Advisor in BootcampSpot.
-
-**BONUS: Technical Interviewing Prep**
-This activity will not be instructor-led, and is only for those students who have completed their LinkedIn profile and submitted it to a Career Material Advisor. Slack out the following instructions and link.
-
-```md
-Part of interviewing for a FinTech role often means completing a technical assessment. Oftentimes, these technical assessments aren't directly FinTech concept related, but aim to test our ability in problem-solved and programming.
-
-In the following challenge, you will utilize an online technical asssessment platform that mirrors platforms used by recruiters and hiring managers to test technical ability. You will complete a timed algorithm challenge in Python called `checkPalindrome`.
-
-Once complete, you can review the solution, which your instructional team will send out at the end of class.
-
-Activity Link: [CodeSignal Challenge: checkPalindrome](https://app.codesignal.com/public-test/4LTGiCdRb57ktqHE6/HDiuX3vXiKB9ez)
-```
-
-**Note**: Do not Slack out the solution until the end of class.
-
-```python
-def checkPalindrome(str):
-
-    reversedStr = str[::-1]
-
-    if (str == reversedStr):
-        return True
-    return False
-```
-
----
-
-### End Class
-
----
-
-© 2020 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+© 2021 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.

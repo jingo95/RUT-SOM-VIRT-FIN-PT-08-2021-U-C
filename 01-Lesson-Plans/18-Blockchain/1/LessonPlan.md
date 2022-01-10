@@ -1,54 +1,40 @@
-## 18.1 Lesson Plan: Blockchain Building Blocks
+## 18.1 Lesson Plan: Introduction to Blockchain
 
 ### Overview
 
-Today's class will introduce students to blockchain technologies. Students will learn the fundamentals of what the technology is, the types of problems it solves, and how it works.
+Today's class will introduce students to blockchain technologies. Students will learn the fundamentals of blockchain technology and the types of problems that blockchain solves. They’ll also learn the difference between centralized and decentralized blockchain systems.
 
-Most of the people believe that blockchain is only about cryptocurrencies; the goal of this lesson is to break this myth, and get the students thinking about how blockchain technology is used and how it will likely affect their lives as a FinTech entrepreneur, as well as be able to use essential tools like wallets and block explorers to navigate the space and to hold a conversation about the topic.
+Students will also be introduced to the Streamlit web application. This application will be used to build the front end of many blockchain applications throughout this unit and beyond.
+
+Many people believe that blockchain is only about cryptocurrencies. The goal of this lesson is to introduce students to the many applications of blockchain—beyond cryptocurrency—and how blockchain technology will affect their lives as a fintech professional.
+
+---
 
 ### Class Objectives
 
 By the end of the class, students will be able to:
 
-* Describe why blockchain exists.
+* Explain how a blockchain works and its implementations.
 
-* Explain blockchain technology and its use cases to someone that doesn't have any blockchain background
+* Describe the key features of all blockchains.
 
-* Describe the 5 Pillars of Open Blockchains.
+* Describe the differences between centralized and decentralized systems.
 
-* Use a blockchain wallet and explain how it works to somebody who doesn't know.
+* Launch a shareable web application using the Streamlit Python library.
 
-* Visualize transactions via block explorers.
-
-* Students will be able to brainstorm solutions for the blockchain ecosystem without robust financial institutions.
-
-* Students will be able to navigate the blockchain ecosystem
+---
 
 ### Instructor Notes
 
-* **Important Note:** For this week's activities, Windows users **MUST** use `git-bash` and not the default command prompt in Windows!
+* This unit marks the beginning of the last section of the course: blockchain. This is an exciting, evolving technology that has implications beyond finance. As you teach the lessons in this unit, emphasize the big picture to engage students and get them excited about the content. For example, blockchain technology can be used to build secure, globally distributed software.
 
-* Some students may already be involved with cryptocurrencies or other blockchain projects and may have some opinions already about particular blockchain implementations. Due to the niche nature of the field, they may have certain biases already.
+* Be sure to review the "Peoplechain" activity before teaching it in class. This activity, which emulates a blockchain using groups of students and Slack, takes place in several consecutive steps and requires pre-class preparation. The activiy requires the creation of four slack channels (see activity instructions) - make sure to invite all students to the channels prior to class.
 
-* Ethereum has the largest developer community in the blockchain space, learning it has high skill transferability.
-
-* While blockchain inherently has a finance-heavy set of use cases, encourage students to think bigger, since the technology can be used for building secure, globally distributed software.
-
-* There is an activity called "Peoplechain" aimed to emulate the public, censor resistant, and borderless nature of the blockchain; be sure to read through before the class.
-
-* **If you encounter any issues with requesting KETH from the Kovan faucet**, the following mnemonic phrase has been pre-funded with test tokens (**for instructors only!**):
-
-  `use trouble sponsor panda camp grow pact matrix chief black napkin ghost`
-
-  If you end up needing to use this wallet, simply import it into MyCrypto, change to the Kovan network, then distribute the KETH to the class and yourself.
-  Since you can work with very small amounts of Ether, you should have plenty of KETH to work with. Sending `0.1` at a time should suffice.
-  Make a note to help refill this later for other instructors once the Kovan faucet is back up and running.
-
-* Some students may encounter a [rare bug](https://github.com/MyCryptoHQ/MyCrypto/issues/2197) in MyCrypto where duplicate words in their mnemonic phrase causes the confirmation page to "get stuck" after selecting one of the duplicate words. If this occurs, simply have the student restart the "Create a New Wallet" process and generate a new mnemonic.
+---
 
 ### Slideshow and Time Tracker
 
-* The slides for this lesson can be viewed on Google Drive here: [Lesson Slides](https://docs.google.com/presentation/d/1syUXqizy8YoZuYVrYmJwDFv1TADW5IqXX0a_Itkvh_w).
+* The slides for this lesson can be viewed on Google Drive here: [18.1 Lesson Slides](https://docs.google.com/presentation/d/1A2Qks3TdudxOM0hOkUucLIj63kaOG107OVsEDpFCTBE/edit?usp=sharing).
 
 * To add the slides to the student-facing repository, download the slides as a PDF by navigating to File, selecting "Download as," and then choosing "PDF document." Then, add the PDF file to your class repository along with other necessary files. You can view instructions for this [here](https://docs.google.com/document/d/1XM90c4s9XjwZHjdUlwEMcv2iXcO_yRGx5p2iLZ3BGNI/edit?usp=sharing).
 
@@ -58,800 +44,875 @@ By the end of the class, students will be able to:
 
 ---
 
-### 1. Instructor Do: Welcome (5 min)
+### 1. Instructor Do: Welcome (10 min)
 
-* **Files:**
+Welcome students to the class, and congratulate them for starting the final lap in their boot camp marathon: blockchain. Some might say this is the most exciting lap!
 
-Welcome students to the class by expressing excitement over starting the final lap in this boot camp marathon -- BLOCKCHAIN -- and that some might say it’s the most exciting lap by far!
+Open the lesson slides and highlight the following points:
 
-Open the lesson slides and highlight the following:
+* Blockchain is exciting and critical for any career in fintech. Blockchain technology powers not just cryptocurrencies, but also decentralized applications and, in some cases, even business networks. It may be a buzzword in the industry, but it’s actually much more than that—it’s a new way of thinking about money and software applications.
 
-* Blockchain is exciting - and critical for their careers - because blockchain technology powers not just cryptocurrencies but entire decentralized economies and even enterprise networks.
+* Traditional financial institutions were intially skeptical about blockchain technology. As time moves forward, blockchain has become more mainstream and these institutions are staying on top of the trends. 
 
-* Blockchain is a buzz-word in the industry, but it’s much more than that -- it’s a new way of thinking about money.
+* According to [Forbes](https://www.forbes.com/sites/forbesbusinesscouncil/2021/06/23/trends-in-blockchain-why-big-banks-are-adopting-this-technology/?sh=74ecabb51e27), in 2018, Deloitte conducted a Global Blockchain Survey with 1,000 banks that revealed how curious the industry was about Blockchain technology. More than 95% of respondents affirmed they would make some level of investment in blockchain or distributed ledger technology. 
 
-* Traditional financial institutions have been skeptical about blockchain technology, however, JP Morgan Chase, the largest U.S. bank, created [Quorum](https://www.goquorum.com/), an Ethereum-based blockchain, in order to leverage the security that blockchain provides for their own systems (and, probably, because they are afraid of being left in the dust by this new technology!).
+* Two years later in 2020 there was an unprecedented pandemic and which as a result seemed to rapidly expand the digitization of the economy, and it looks as though the curiosity revealed in the Deloitte study has turned into action.
 
-* In this unit, students will be building their blockchain wallets, write smart contracts, and construct a blockchain from scratch.
+* According to [Business Insider](https://markets.businessinsider.com/news/currencies/blockchain-technology-financial-institutions-jpmorgan-bitcoin-citi-cryptocurrency-transactions-btc-2021-2) Bank of America's research found that JPMorgan and Citi are using blockchain technology, and other banks are considering allowing clients to hold crypto in bank accounts as of Febuary 2021.
 
-Some of this may seem intimidating to the students, so express that you are proud of how far the class has already traveled together as a team; after 17 weeks together, the students can do Python, Pandas, and ML!; By the end of this block (get it?), they will be able to speak “blockchain” -- but we’re going far beyond the terminology.
+* In addition [CNBC](https://www.cnbc.com/2021/08/23/visa-buys-cryptopunk-nft-for-150000.html) reported in August 2021 that VISA purchased their very own [cryptopunk](https://www.larvalabs.com/cryptopunks) NFT.
 
-Explain to the class that this final stage is huge. That’s going to be challenging, but you know they can do it - after all, they’ve made it this far!
+* In this lesson, students will explore the fundamentals of a blockchain.
+
+This topic may be intimidating to some students, so offer some words of encouragement. Tell them you’re proud of how far you’ve come together as a group. After 17 weeks, they can now use Python, Pandas, and machine learning. By the end of this unit, they’ll be able to speak “blockchain.” It’ll be challenging, but you know they can do it!
 
 Answer any questions before moving on.
 
 ---
 
-### 2. Instructor Do: Blockchain Skill Check (5 min)
+### 2. Instructor Do: Blockchain Skill Check (10 min)
 
-Before we dig in, let’s get a sense of where the class might be when it comes to blockchain.
+Before diving in, get a sense of the students’ blockchain knowledge.
 
-Open the lesson slides and move to the "Have you heard?" section; ask a few questions and have the students give a thumbs up for yes or a thumbs down for no.
+Open the slides and go to the “Have you heard?” slide. Tell students to answer the following questions with a thumbs-up for “yes” or a thumbs-down for “no.”
 
 * How many of you have heard of blockchain before?
 
 * How many of you have heard of cryptocurrency before?
 
-* How many of you have ever used a blockchain, aka crypto wallet?
+* How many of you have conducted a transaction on a blockchain using a digital wallet?
 
 * How many of you have ever traded cryptocurrency?
 
-Ask the students to hold out a [fist-to-five](https://k12teacherstaffdevelopment.com/tlb/what-is-fist-to-five-strategy/) (fist for 0, 5 fingers up for 5) to answer how familiar they are with the following topics:
+Next, ask the students to hold out a [fist-to-five](https://k12teacherstaffdevelopment.com/tlb/what-is-fist-to-five-strategy/) (fist for 0, 5 fingers up for 5) to answer the following questions:
 
 * How familiar are you with blockchain?
 
-* How comfortable do you feel having a conversation about blockchain technology?
+* How comfortable are you having a conversation about blockchain technology?
 
-* How familiar are you with Ethereum?
+Remark on the results, depending on how students answered. For example:
 
-Remark on the results.
+* “It looks like we have some blockchain experts—awesome!”
 
-* “It looks like we have some blockchain experts - awesome!”
+Take a mental note of the students who have strong familiarity with blockchain. This way, you can pair them with students who have less knowledge about the topic for the group activities.
 
-Take a mental note of the students with strong familiarity with blockchain, as you will be able to distribute them among groups that have less knowledge about the topic.
+Next, ask the students to again hold out a fist-to-five (fist for 0, 5 fingers up for 5) to answer the following questions.
 
-Ask the students to hold out again a fist-to-five (fist for 0, 5 fingers up for 5) to answer how familiar they were with the following topics before they started the course.
+* Before starting this course, how familiar were you with Python?
 
-* How familiar were you with Python?
+* Before starting this course, how comfortable were you having a conversation about machine learning?
 
-* How comfortable were you having a conversation about machine learning?
-
-* How familiar were you with data science?
-
-Remind the students that just like they learned how to master Python and ML, and they will surprise themselves with how much they learn over the coming weeks.
-
-It may seem like a foreign language at times, but they’ve already learned a new language as part of this course, and you and the TAs will be there to guide them.
-
-Tell the students it’s time to dig into blockchain: first things first, let’s start with a definition.
-
-Ask the students if anyone has a definition of blockchain that they would like to share with the class. Thank the students for sharing.
-
-Show the definition of blockchain on the slide, and ask the students to read it to themselves.
-
-Ask them if they have questions. Then, break down the definition.
-
-* A blockchain is a distributed "immutable" database that is not controlled by a single, central authority.
-
-* The database is synchronized across the network, with special rules in place to incentivize good actors and disincentivize bad actors.
-
-* It is immutable, which means you can only add to the database: you cannot change the history.
-
-* This provides a powerful means of creating a trusted "source of truth" in a trustless environment.
-
-Answer any questions before moving on.
+Use this moment to remind students that, just as they gained Python and ML skills, they’ll soon become well versed in blockchain technology. Learning blockchain may seem like learning a new language, but they’ve already shown that they can learn a new language (Python), and you and the TAs will be there to guide them along the way.
 
 ---
 
-### 3. Instructor Do: The Importance of Blockchain (10 min)
+### 3. Instructor Do: Introduction to Blockchain (15 min)
 
-For this activity, the instructor will lead a formal discussion regarding what blockchain technology is and why it’s essential.
+In this section, you'll formally introduce the concept of blockchain, including the definition and the key features of blockchains.
 
-First, navigate to the slides and begin with the "Bank CEO" example:
+#### What Is Blockchain?
 
-Ask the students the following questions, allowing them to answer, then confirm each of the listed answers:
+Start this introduction by asking for volunteers to share their definition of a blockchain. Incorporate their responses into the lecture, which should cover the following points:
 
-* "Why would a banker want to use a blockchain?"
+* A **blockchain** is a technology that records and shares data over a network, such as the internet.
 
-  **Answer**: Using a blockchain for inter-bank communication is faster, more secure, and cheaper than the systems in place now, Swift and ACH.
+* Blockchains can be thought of as a bunch of computers that allow users to securely record and access data from anywhere on the network. The computers work together to make sure that they all agree on what was recorded. Therefore, we can trust that the system will always have a complete and accurate record of the data.
 
-* Why would an individual in an underbanked, developing, or authoritarian country want to use a blockchain?
+* Blockchains can be used for all sorts of financial applications or services for which recording transactions or other data has importance. Over the course of this module, you’ll learn all about the technology that powers a blockchain - specifically, how it works and why we can trust it to maintain complete and accurate data records.
 
-  **Answer**: Transactions cannot be censored.
+Explain that the most well-known blockchain application is cryptocurrency—a digital currency for which users can record the storage and transfer of value between participants on the blockchain.
 
-  **Answer**: You only need a mobile device and internet connection, which is a common commodity, even in developing countries.
+* Most often, people associate blockchain with cryptocurrencies. This association is accurate (cryptocurrency is one application of blockchain). But it’s not the full story.
 
-  **Answer**: Some blockchains can be used as a hedge against hyperinflation of their native currency.
+* Blockchains can be used to record any type of transaction or data. Examples include recording an agreement to buy a house, recording a vote, and even recording a marriage contract.
 
-* Why would an individual in the US want to use a blockchain?
+* All kinds of industries- from finance to healthcare, logistics, real estate, and energy- are finding ways to apply blockchain technologies. Many applications of blockchain prove useful, convenient, and even fun. Here are a few examples:
 
-  **Answer**: Removes intermediaries like PayPal, Venmo, Cashapp, etc., and allows for peer to peer payments, thus lower fees.
+  * [Mythical Games](https://mythicalgames.com/), a large games studio, allows users to buy and sell digital in-game items over a blockchain, even across different games.
 
-  **Answer**: Custody over your funds, versus allowing a bank to have custody.
+  * [Doc.ai](https://doc.ai/) links medical records across a distributed ledger to lower healthcare costs and advance scientific research.
 
-  **Answer**: Cheaper than domestic wire transfers
+  * [Bloq](https://www.bloq.com/), an infrastructure platform, allows any company to add blockchain applications to its existing business.
 
-  **Answer**: Brings financial services typically available to the upper class to everyone.
+  * [TraDove](https://www.tradove.com/login), a platform that connects suppliers with customers, resembles Alibaba.com, but it relies on blockchain to enable trust and lower transaction costs.
 
-* Why would anyone want to use blockchain?
+#### Features of Blockchain
 
-  **Answer**: Fast, global transactions that are not managed by a single authority
+Explain that most blockchains, regardless of their use case, share the following key features:
 
-  **Answer**: Secure, modern infrastructure for the next generation of the internet. This is also known as Web 3.0.
+* **Decentralization**: A blockchain is decentralized, because all the users can simultaneously edit the blockchain. Every user always has direct access to the blockchain, and no central authority monitors the user transactions. This is the defining feature of a blockchain.
 
-Answer any questions before moving on.
+* **A distributed architecture**: A blockchain is distributed for two reasons. First, many computers in various locations store identical copies of the same ledger. Second, these computers communicate with each other to arrive at particular decisions, like the validity of a new block in the chain.
+
+* **Trust**: The technology is designed so that users can trust that the blockchain accurately records all its data and prevents tampering with that data. Without this trust, no one would use a blockchain for a transaction.
+
+* **Record keeping**: In a blockchain, each **block** represents a transaction (or group of transactions), and the **chain** links these transactions over time.
+
+* **Transparency**: Anyone can review the history of the transactions in a blockchain. This doesn’t mean that anyone can review all the data that the transactions contain. The data itself might be private or sensitive. But users can verify the existence of the transactions - specifically, who added data to the chain and when. Not all blockchains have full transparency, but it’s a common feature.
+
+Explain that, although people commonly associate blockchain technology with cryptocurrencies, these key features belong to any blockchain application.
+
+* It’s important for you as a fintech professional to distinguish the difference between blockchains and cryptocurrencies.
+
+* A blockchain isn’t a cryptocurrency. Rather, it’s a common component of how cryptocurrencies are structured.
+
+* Furthermore, blockchain technology has applications beyond the creation of cryptocurrencies.
+
+The following activity encourages students to think about blockchain beyond just cryptocurrency by asking them to examine a number of blockchain use cases.
 
 ---
 
-### 4. Students Do: Use Case Study (10 min)
+### 4. Student Do: Use Case Study (15 min)
 
 **Corresponding Activity:** [01-Stu_Use_Case_Study](Activities/01-Stu_Use_Case_Study)
 
-Students will complete a thought experiment in which the students will get together in small groups and examine an example use case application
-for different cryptocurrency and blockchain projects.
+In this activity, students will work in groups to examine a use case for different cryptocurrency and blockchain projects. The goal is for the students to list the blockchain features that are applicable to each of the use cases.
 
-The goal is to have the students write down the features they glean from the different use cases.
+* Break students into groups of three. Each group will examine one of the use cases from the provided list.
 
-The features listed by students will be compared against the 5 Pillars of Open blockchains in a forthcoming lecture.
+* You can either assign each group a use case or allow groups to select one themselves.
 
-Circulate through the room while students are completing the activity. Look to identify students who are actively engaging peers and digging deeper. Keep these students in mind for later, as they may be helpful to distribute among groups.
+Monitor group discussions as students work. Identify students who are actively engaged in the research process and with their peers. Keep these students in mind for later group activities, when it might be helpful to pair them with students who are less comfortable with the material.
 
-If students are actively engaged with each other and the research process, they are succeeding at this exercise.
+Have a TA slack out the following instructions to the class.
 
-The only way to not excel at this exercise is to not participate in the research.
+**Files:**
 
-**Instructions:**
-
-* [README.md](Activities/01-Stu_Use_Case_Study/README.md)
+[Instructions](Activities/01-Stu_Use_Case_Study/README.md)
 
 ---
 
-### 5. Instructor Do: Use Case Study Review (5 min)
+### 5. Instructor Do: Use Case Study Review (10 min)
 
-Discuss with the class which features they noticed.
+**Corresponding Activity:** [01-Stu_Use_Case_Study](Activities/01-Stu_Use_Case_Study)
 
-Have groups share a few items on the lists of features they curated.
+**Files:**
 
-Some typical features may be:
+[Instructions](Activities/01-Stu_Use_Case_Study/README.md)
+
+Begin the activity review by asking students to list the five key features of blockchains:
+
+* Decentralization
+
+* Distributed architecture
+
+* Record keeping
+
+* Trust
 
 * Transparency
 
-* Privacy (in the case of Monero)
+Using these features as a guide, ask groups to share a few of the features they curated from the use cases in the activity. Talking points for each of the use cases have been provided to assist in facilitating the discussion.
 
-* Smart contracts
+#### Bitcoin in Venezuela
 
-* Neutrality
+Source: [BBC News](https://www.bbc.co.uk/news/business-47553048)
 
-* Hedge against hyperinflated currencies
+* Decentralization: There is no fear of the government devaluing the currency.
 
-* Bridge of trust between parties that might not trust each other
+* Distributed architecture: Users only need a computer in order to participate in the Bitcoin blockchain. It’s publicly accessible to almost anyone in the world, and it doesn’t require bank accounts that are located abroad.
 
-* Cross-border nature
+* Trust: Users trust that their currency will not be devalued and that their funds are secure.
 
-* Pseudonymous system (addresses are your alias, not necessarily attached to identity)
+#### Monero
 
-Answer any questions before moving on.
+Source: [Brave New Coin](https://bravenewcoin.com/insights/monero-no-plans-to-go-'legit')
+
+* Decentralization: There is no authority overseeing the distribution or use of the Monero cryptocurrency. Therefore, its use in potentially illegal transactions is unmonitored.
+
+* Trust: Users trust that the transactions conducted on the blockchain will remain anonymous and private.
+
+#### Stellar
+
+Source: [Investopedia](https://www.investopedia.com/news/what-stellar/)
+
+* Transparency: Stellar is open source.
+
+* Distributed architecture: Stellar’s business focuses primarily on developing markets where a centralized system can be more challenging to implement. The cross-border nature of the systems design is integral to making the application accessible.
+
+* Record keeping: Stellar seeks to provide money remittance and bank loan distribution to the unbanked population—two areas where accurate and immutable records are paramount.
+
+#### Ethereum
+
+Source: [TechRadar](https://www.techradar.com/uk/news/charting-the-rise-and-rise-of-ethereum)
+
+* All five key features are demonstrated by the Ethereum blockchain and underlie its success, especially as it relates to the creation of smart contracts.
+
+* **Smart contracts** are key in Ethereum’s success. They allow for the creation of decentralized financial (DeFi) applications. The creation and distribution of smart contracts embody all five features of blockchain technology.
+
+#### Machine-to-Machine Transactions
+
+Source: [DXC Technology](https://blogs.dxc.technology/2019/01/29/machines-that-pay-each-other-using-digital-wallets/)
+
+* Record keeping: The record-keeping functionality makes it easy to track usage and payments from one machine to another.
+
+* Distributed architecture: The software can be scaled to many machines.
+
+#### CryptoCribs
+
+Source: [Bitcoin News](https://news.bitcoin.com/meet-cryptocribs-a-rental-service-that-aims-to-decentralize-airbnb/)
+
+* Trust: Trust is integral to the short-term, peer-to-peer rental business.
+
+* Decentralization: CryptoCribs is a service provider. Its application is built on a decentralized network, which makes it more resistant to outages.
+
+* Distributed architecture: Because all renters and rentees can access the software, CryptoCribs works toward eliminating intermediaries in the rental process.
+
+#### Proof of Impact
+
+Source: [Proof of Impact](https://proofofimpact.com)
+
+* Distributed architecture: Proof of Impact provides data that is readily available to all users.
+
+* Trust: The immutable nature of information contained on a blockchain ensures data integrity.
+
+Once each of the groups has had a chance to participate in the discussion, ask if there are any additional questions or insights before proceeding to the next activity.
 
 ---
 
-### 6. Instructor Do: The 5 Pillars of Open Blockchains (10 min)
+### 6. Instructor Do: Centralized vs. Decentralized Systems (15 min)
 
-For this activity, the instructor will lead a formal lecture regarding what the five pillars of open blockchains are and why they are relevant.
+In this section, you’ll cover decentralization and its importance in the blockchain ecosystem.
 
-See the [blockchain support document](../Instructor_Support/Blockchain.md) for a background video on this topic.
+* Decentralization is a defining feature of blockchain—it’s what distinguishes blockchains from traditional banking systems, which are centralized and highly regulated.
 
-Start this activity by explaining the following to students:
+Tell students that now they'll learn how a centralized banking system operates, and then contrast that system with a decentralized blockchain.
 
-* As we talk through each pillar, keep in mind what you uncovered during the previous exercise. What feature would you put in each category?
+#### Centralization and Traditional Banking
 
-* These pillars are the fundamental features that blockchains were created to provide. Learning these will help you understand how some blockchains sacrifice these features for speed or marketing purposes instead of innovating on the underlying algorithms.
+Define centralization and cover some of its advantages and disadvantages.
 
-* The chains that innovate on these features are the most universal in terms of feature sets and can be easily adapted to enterprise.
+* Historically, most systems that maintain financial records—for example, banks and governments—have been **centralized**. This means that one location or one authoritative source runs the financial tasks that are involved in maintaining the system.
 
-Then, transition through the slides and begin talking about each topic.
+  * For example, banks keep internal logs of their money flows. A bank exchanges assets (like cash and stocks) with a wide variety of customers. But the bank doesn't rely on those customers to agree on the amount of money that the bank currently has. The bank keeps its own, authoritative record.
 
-Begin by prefacing that each of these pillars ties into each other to build an open blockchain network.
+  * People usually consider banks as trustworthy institutions. So, when $50 is transferred from one bank account into a friend's account at a different bank, both parties can trust that the money will arrive at the correct destination, and that the bank will record a decrease of $50 in the sender's balance and an increase of $50 in the receiver's balance.
 
-#### Pillar 1: Open
+* The bank's internal log of its money flow is an example of a centralized accounting system, which is also called a **ledger**.
 
-![screenshot of open slide](Images/open-door.png)
+* At a basic level, a ledger keeps track of financial transactions. Any financial ledger includes both **settlement and reconciliation**.  A ledger must facilitate the transfer of assets between one entity and another, which is known as a **settlement**. A ledger must also verify that all its transactions have been correctly done, which is known as **reconciliation**.
 
-* Openness in this context refers to access:
+* Centralization has advantages.
 
-  * Anyone can access the source code and create a project from it, therefore developer access is high.
+  * It makes transactions easy and fast. Transactions just need to be logged to the appropriate server, and it's done!
 
-  * Anyone can access the chain and participate in the ecosystem.
+  * Transactions are not cross-checked against other copies on the network, which saves time and energy. If the settlement and reconciliation of a single transaction in a centralized system was reviewed, it could likely be determined, in a simple manner, whether that transaction was correctly done.
 
-  * Anyone can access the services the blockchain offers.
+* However, centralization also has hidden costs.
 
-* Openness means that the system is designed to incentivize users to keep it open. The internet is an example of this, and it is built on open protocols that anyone can learn and contribute to.
+  * For instance, say that a centralized system processes millions or even billions of transactions every day. There are now complex and expensive problems.
 
-#### Pillar 2: Borderless
+    * First, investment in extra servers is needed, in case a server goes down or reaches capacity.
 
-![screenshot of borderless](Images/borderless.png)
+    * Any downtime can lead to a chain reaction of failed transactions and other issues, which is a costly problem to solve.
 
-* Explain to the students that borderless means precisely that, a network without geographical or political borders.
+    * Finally, specialists are required, and need to be paid, to monitor these millions of transactions and audit any that appear erroneous.
 
-* To be borderless, the network needs to be decentralized. This means that any central party does not hold control of the network.
+Blockchain technology mitigates these types of problems by using distributed ledgers and decentralization.
 
-* Since the blockchain is synchronized onto every device that helps maintain it (called nodes), it lives everywhere.
+#### Decentralization and Blockchains
 
-Ask the students: "Are you moving money across a border when you bring a credit card across customs?"
+Review the concept of decentralization.
 
- **Answer**: No
+* At this point, we know that the concept of decentralization is a system where control is spread across all users of the blockchain.
 
-Ask: "In that case, are you moving money across a border when you load cryptocurrency onto your phone and travel internationally?"
+* What does this look like in practice? A decentralized blockchain is copied and maintained by local computers—of Bitcoin users, for example.
 
- **Answer**: Nope, you only have to register cash over 10k
+* Unlike a centralized financial system that has one authoritative ledger to record all transactions, the ledger of a blockchain is **distributed** across all the computers that have a copy of the blockchain.
 
-Elaborate and bring out this analogy:
+* All of these computers update the ledger with the current transactions, and no single authority monitors the ledger for problematic transactions. Instead, the blockchain technology itself has fraud prevention built in.
 
-* Much like the money is not on the card itself, a crypto wallet does not hold the crypto itself, just the access.
+Go to the following image in the slide deck. This image illustrates all the computers in a distributed ledger system jointly maintaining a ledger, without a central authority to supervise the system:
 
-* The blockchain is already synchronized to a device in the country you are traveling to, so accessing it is the same as if you were to swipe a Visa card internationally, only without Visa getting involved.
+![An illustration of a decentralized computer network.](Images/decentralized-network-diagram.png)
 
-* You can also use a satellite connection to connect to blockchain networks and broadcast transactions, therefore it is truly global.
+* When correctly designed, this kind of distributed ledger—spread across thousands or millions of computers, or **nodes**—is more immune to server outages, malicious hackers, and other factors that can cause transactions to go wrong.
 
-* This separation of state and money is a first in history. It is similar to the separation of church and state to allow for religious freedom; only this allows for monetary freedom.
+* If one computer goes offline, millions remain to both maintain the transaction history and continue processing new transactions. Even if a malicious hacker compromises the blockchain on thousands of computers, the system is designed so that the remaining blockchains- replicated on potentially thousands or millions more computers - will automatically identify the compromised blockchains as invalid.
 
-#### Pillar 3: Neutral
+* Distributed blockchain technology has a built-in auditing system.
 
-![screenshot of neutral](Images/net-neutrality.png)
+* By contrast, the legacy technology of banks has to rely on more costly techniques to monitor problematic transactions. This is just one reason why large banks, credit card companies, and other traditional financial institutions are embracing blockchain technology.
 
-* Explain how neutral means that the protocol does not discriminate against any user.
+* A decentralized blockchain network uses a set of rules, called a **blockchain standard**, to govern what the blockchain code can do. The blockchain standard sets a system for copying and distributing transaction records. The blockchain standard assures that all of the computers in the network are validating transactions using the same rules. This way, the collection of records represents a source of truth.
 
-* In fact, users don't even need to be human. The blockchain does not care if you are a human or a washing machine.
+* Enough blockchain copies in agreement about what transactions took place and when determines the **source of truth**, or historical record.
 
-* The blockchain is agnostic to the users, regardless of political or social status, or geographic location.
+* That a number of copies of the blockchain record in agreement creates the source of truth is what prevents hackers from compromising the system.
 
-* A wealthy banker or government leader uses the protocol in the exact same way anyone else would.
+  * An example is creating enough fake users with changed records that the entire decentralized network thinks that this changed record must be the source of truth. This is theoretically possible for a distributed ledger like Bitcoin.
 
-* Open blockchain networks are also governed in a neutral fashion, with many using the blockchain itself for voting on the next network upgrades.
+  * If 51% of Bitcoin users agree on the exact properties of the ledger at an exact point in time, that becomes the ledger. However, think about the difficulty of realizing such an attack. The attacker would have to set up an operation that generates more false transactions than those in the entire existing operation of all other Bitcoin users (hence, becoming 51% of the blockchain).
 
-#### Pillar 4: Censor Resistant
+  * This would require prohibitively large amounts of resources, like server space, energy, and time. This is why no one has ever successfully attacked a massively distributed cryptocurrency, like the Bitcoin ledger.
 
-![screenshot of censor resistant](Images/censor-resistant.png)
+#### Centralized Blockchains
 
-* Blockchains that are properly decentralized are highly resistant to censorship and authoritarian control.
+While most blockchains are decentralized, it’s possible to operate a blockchain as a centralized system.
 
-* This means that people suffering in nations that have high censorship can still find a way to use these systems to reach out and to bypass the oppression.
+  * In a centralized blockchain, only certain participants with special permission can perform transactions on the blockchain. These are called **permissioned** blockchains.
 
-* Blockchain is being used currently around the world to avoid censorship or hyperinflation in many countries.
+  * Consider a hypothetical blockchain that allows various departments of a city government to record transactions about each property that’s located within its jurisdiction. These might include property tax payments, emergency services, ownership status, and street maintenance history. Placing all this in a single ledger would be terrific for efficiency.
 
-* It has been said that blockchain and crypto can be seen as an insurance policy against a dystopian future.
+  * Maybe the city would also want to make some of this information publicly reviewable. But they wouldn’t want anybody to be able to edit who owns a property!
 
-* Money is often compared to a form of speech. These are systems where this form of expression cannot be censored.
+  * By contrast, **permissionless** blockchains allow anyone to transact, or make changes, on the blockchain as it continues forward. (However, users can’t go back and edit the history of the transactions in the blockchain.)
 
-#### Pillar 5: Public
+Go to the following image in the slides, and then summarize the concept of decentralization in the following way:
 
-![screenshot of public](Images/two-way-street.png)
+![An illustration compares a centralized financial system to a decentralized blockchain system.](Images/decentralized-vs-centralized-diagram.png)
 
-* Explain that this means that blockchains allow for all transactions to be verified and to be visible to the whole network, so that it becomes impossible to cheat. 
+Explain that, in summary, blockchains apply new technology to an old problem: record keeping.
 
-* That is, the system is transparent and anyone can audit the system and there is no 3rd party in charge that participants have to trust.
+  * Using blockchain's decentralized system, copies of records are stored on every computer, or node, that exists on the blockchain network.
 
-* This distinguishes blockchains from any systems used for corporate or government purposes. 
+  * This stands in contrast to a centralized system where records are only stored on, and only accessible from, a single server or a single location.
 
+  * Decentralizing the recording of data, such as financial transactions, has many benefits, including reliability and security.
 
-* Military or government work, or certain logistic implementations will likely be suited to a private network due to the confidential nature.
-
-* This is at least until zero-knowledge proof technology that allows for total privacy on a public blockchain is further developed to scale.
-
-
-
-* Explain how these systems are built by the people, for the people, and are governed by the people.
-
-Ask the students to compare the 5 Pillars to the features that they had written down during their use case analysis and to compare and contrast what they came up with to what they just learned.
-
-Answer any questions before moving on.
+Ask students if they have any questions about the concept of decentralization and how it relates to blockchain before moving on to the next activity.
 
 ---
 
-### 7. Student Do: Peoplechain (15 min)
+### 7. Student Do: Peoplechain (20 min)
 
 **Corresponding Activity:** [02-Stu_Peoplechain](Activities/02-Stu_Peoplechain)
 
-For this activity, students will emulate the basic functioning of a blockchain by creating a distributed ledger like system breaking up into groups and using themselves as network participants. This should help everyone understand the basic operations of a blochchain.
+Explain to students that, working in groups, they will emulate the basic functioning of a blockchain by creating a distributed-ledger-like system.
 
-To prepare for the activitiy, create 4 new slack channels:
+Each group will act as the following:
+
+* A blockchain user, sending and receiving cryptocurrency.
+
+* A blockchain node with responsibilities for validating transactions.
+
+* A blockchain miner with responsibilities for writing blocks to the chain.
+
+Before class, create four new channels in the class’s group Slack with the following names:
 
 * Balance
 * Broadcasted Transactions
-* MemPool 
+* MemPool
 * Blockchain
 
-#### Activity Logistics
+All students need to subscribe to all four channels in order to successfully participate in the activity.
 
-For this exercise, students are going to be wearing multiple hats and emulate the activities of a fictitious blockchain that are involved in confirming a transaction (notice that the operational details of blockchains might differ from this example, say if 'proof of stake' is used instead of 'proof of work' for instance). 
+Ask a TA to slack out the instructions for the activity to the students.
 
-* Initially, everyone will share their account balance with the network. For this step, ask all students to share their made up account balances in the 'Balance' channel, by posting their balance like so: 10 BTC. We can always identify the owner of that account by checking who posted the message.
+**Files:**
 
-* In the 2nd stage, everyone will take on the role of a Bitcoin user, and slack out one single transaction, like so: 
+* [Instructions](Activities/02-Stu_Peoplechain/README.md)
 
-    ```python
-    { to: "StudentA", from: "StudentB", amount: "$100", fee: "$1.00" }
-    ```
-  Point out to students that they are not required to post valid transactions. For instance, they could send more BTC than they have, or have the transaction send BTC to them from someone else. We will identify the valid transactions in the next step.
+#### Activity Overview
 
-* In the 3rd stage, students assume the role of nodes in the network that validate transactions. Ask students to mark transactions that they have validated with a thumbs up symbol in slack. A transaction is valid if the 'from' section matches the sender of the message in slack (explain to the students that this is similar to a digital signature) and the amount sent is not larger than that person's balance. Then ask one student to copy the transactions that have received a 'thumbs up' from at least half of the classroom over to the MemPool channel. Explain to students that the Memory Pool contains validated transactions waiting to be confirmed.
+In this activity, students will emulate the activities of a fictitious blockchain that are involved in confirming a transaction.
 
-* During the final stage, students will assume the role of miners. For this step, pick a random number between 1 and 10 and let the students enter their guesses in the 'class activities' channel. Whoever guesses the correct number first gets to pick 5 transactions and adds them to the next block in the 'Blockchain' channel and receives 1 BTC and the sum of all transaction fees of the transactions added to the pool. Here, a block consists of 1 slack message that looks like this (for the first block, the Previous Block's Hash should be zero, after that, it should increase in increments of 1):
+You’ll first break students into groups of three or four people. Each group should choose a name that corresponds to the first name of one of the students in the group (for example, Group Tom or Group Adriana).
 
-    ```python
-    Previous Block's Hash
-    { to: "StudentA", from: "StudentK", amount: "$100", fee: "$1.00" }
-    { to: "StudentC", from: "StudentD", amount: "$75", fee: "$1.50" }
-    { to: "StudentF", from: "StudentN", amount: "$99", fee: "$2.00" }
-    { to: "StudentG", from: "StudentE", amount: "$65", fee: "$1.20" }
-    { to: "StudentL", from: "StudentA", amount: "$12", fee: "$3.00" }
-    This Block's Hash
-    ```
-Repeat the final stage until all transactions from the MemPool are added to the chain.
+The activity is divided into four steps.
 
+1. Post cryptocurrency balances on the blockchain.
 
-**Instructions:**
+2. Create blockchain transactions.
 
-* [README.md](Activities/02-Stu_Peoplechain/README.md)
+3. Validate blockchain transactions.
+
+4. Mine blockchain transactions.
+
+Groups must complete each step before they can proceed to the next step. Work with your TAs to make sure every group stays on task throughout the activity.
+
+#### Instructions
+
+##### 1. Post Cryptocurrency Balances on the Blockchain
+
+Each group will post a (fictitious) balance of their cryptocurrency account in the Balance channel in Slack. The message should be sent by the individual that the group is named after. For example, Adriana should post the balance for Group Adriana. It should be posted in the following format:
+
+  ```text
+  Group Tom: 10 BTC
+  ```
+
+The starting balance for each group can be verified by looking for the message posted by the group’s namesake.
+
+##### 2. Create a Blockchain Transaction
+
+Now, each group will act as a Bitcoin user. Each group member (the group namesake) who posted in the Balance channel in Step 1 will now post one transaction in the following format to the Broadcasted Transactions channel:
+
+  ```text
+  To: Group Adriana, from: Group Tom, amount: 3 BTC, fee: .01 BTC
+  ```
+
+Every transaction, no matter the size, should include a fee of .01 BTC.
+
+> **Note:** Groups are not required to post valid transactions. For example, they can send more BTC than they have (according to the balance they posted in Step 1), or send BTC to themselves from someone else. Transactions will be validated in the next step.
+
+##### 3. Validate Blockchain Transactions
+
+In this step, each group will act as a node in the blockchain network by validating the transactions.
+
+In this activity, a transaction is **valid** if it meets the following conditions:
+
+* The group name in the “from” section (see the transaction format in Step 2) matches the name of the sender in the Slack message. Think of this as a digital signature.
+
+* The amount sent is not larger than the group’s balance
+
+To validate a transaction:
+
+* One student from each group should give it a “thumbs up” in the Broadcasted Transactions channel.
+
+* Once a transaction has received a “thumbs up” from at least half of the groups in the class, a TA should copy the transaction from the “Broadcasted Transactions” channel and paste it in the “MemPool” channel in Slack.
+
+> **Note:** Explain to students that, in a blockchain network, a mempool contains validated transactions that are waiting to be confirmed.
+
+##### 4. Mine Blockchain Transactions
+
+In this final step, students will act as miners on the blockchain.
+
+You, the instructor, will choose a random number between 1 and 10. Ask each group to post their guess in the Class Activities channel.
+
+The group that guesses correctly first gets to add five transactions to the next block in the Blockchain channel. To do so, one of the group members will create a “block” message in the channel. In this case, a “block” should look like the following code snippet:
+
+  ```text
+  Previous block hash - 0
+  to: Group Adriana, from: Group Tom, amount: 3 BTC, fee: .01 BTC
+  to: Group Tom, from: Group Adriana, amount: 1.33333 BTC, fee: .01 BTC
+  to: Group Arturo, from: Group Aubrey, amount: 7 BTC, fee: .01 BTC
+  to: Group Jose, from: Group Nikhel, amount: 1.25 BTC, fee: .01 BTC
+  to: Group Samson, from: Group Tanisha, amount:  2.7594 BTC, fee: .01 BTC
+  Current block hash - 1
+  ```
+
+For this task, be aware of the following:
+
+* The transactions can be copied and pasted from the MemPool channel. Once a transaction is “mined,” it should be marked in MemPool with a checkmark so that it’s not duplicated on the blockchain by other miners.
+
+* For the first block that’s mined, the previous block hash is 0, and the current block hash is 1. For the second block that’s mined, the previous block hash is 1, and the current block hash is 2. The hash count progresses until all transactions have been mined in blocks.
+
+> **Note** Explain to students that the hash code acts as an identifier that links the current block to the previous block. The concept of linking blocks is extremely important to ensuring the integrity of the chain. In the next lesson, we’ll explore how blocks are linked using hash values in greater detail.
+
+* The mining group will receive a reward of 1 BTC as well as the sum of all transaction fees for the transactions added to the pool, for a total of 1.05 BTC to add to their cryptocurrency balance.
+
+Repeat Step 4 until all transactions from the MemPool channel are added to the chain.
 
 ---
 
 ### 8. Instructor Do: Peoplechain Review (10 min)
 
-Ask the students a few questions about the activity:
+**Files:**
 
-* If one person lied about a transaction, would it be easy to tell?
+* [Instructions](Activities/02-Stu_Peoplechain/README.md)
 
-  **Answer**: Sure, you could double-check with another one of the many records of the transaction.
+Ask the students the following questions as a way to connect what they did in the activity with blockchain fundamentals:
 
-  **Answer**: In reality, there are cryptographic features that will also prevent this.
+**Question:** What were the four main steps associated with creating our People chain? How do these steps relate to real blockchain functionality?
 
-* What would be required to commit fraud in the system above?
+Allow students to answer, and then expand on their responses with the following talking points:
 
-  **Answer** Have a majority validate the false transaction AND win the random guess in order to add the false transaction to the blockchain.
+* The four main steps are:
 
-* What are the ways this system is making lying harder to do?
+  1. Post cryptocurrency balances on the blockchain.
 
-  **Answer** Since the ledger is everywhere, and transactions are broadcasted to everyone, it is difficult to lie.
+  2. Create blockchain transactions.
 
-Ask the students to ponder the following (no answer required):
+  3. Validate blockchain transactions.
 
-* So, given the possibility of all these connections, what if one entire region had a different list of transactions?
+  4. Mine blockchain transactions.
 
-  **Answer** You would have a consensus problem -- we’ll discuss how to manage this with consensus algorithms in a later lesson.
+* **Post cryptocurrency balances on the blockchain:** In a real blockchain, cryptocurrency balances are usually accessed through a cryptocurrency wallet.
 
-Answer any questions before moving on.
+* **Create blockchain transactions:** All transactions on a blockchain contain at least the information detailed in the activity transactions: sender, receiver, amount of the transaction, and a transaction fee.
 
----
+* **Validate blockchain transactions:** Every transaction posted to the blockchain must be validated before it’s written to a block. The validation process keeps users from spending more cryptocurrency than they have. Transactions usually wait in the mempool to be validated and written to the blockchain.
 
-### 9. Student Do: Basic Terminology (10 min)
+* **Mine blockchain transactions:** Once transactions are validated, they’re pulled from the mempool and mined into blocks. Each block consists of a group of validated transactions. Each block has an identifier that ties it to the previous block, which helps to ensure the continuity of the chain.
 
-**Corresponding Activity:** [03-Stu_Basic_Terminology](Activities/03-Stu_Basic_Terminology)
+**Question:** In the activity, was it easy to determine if a group posted an invalid transaction?
 
-For this activity, students will Google common terminology used in blockchain development.
+  * **Answer:**  Yes. You could check the transaction against the record, which was posted in the Slack channel. In a real blockchain, there are also cryptographic features that prevent invalid transactions.
 
-Have the TAs circulate through the class and clarify definitions for students that are confused.
+**Question:** In our fictitious blockchain, how would a user commit fraud?
 
-**Instructions:**
+  * **Answer:** In order for a false transaction to be added to the mempool and, therefore, the blockchain, it would need to appear as though the majority of groups validated the false transaction. Also, the group trying to commit fraud would have needed to win the competition (guessing the random number correctly) in order to mine the false transaction to the blockchain.
 
-* [README.md](Activities/03-Stu_Basic_Terminology/README.md)
+**Question:** How does this system of validating and mining transactions, as well as making transactions public, make it more difficult to commit fraud?
 
-### 10. Instructor Do: Basic Terminology Review (10 min)
-
-Students will learn basic, common terminology that will enable them to navigate the blockchain space.
-
-* **Files:**
-
-  * [Lesson Slides](https://docs.google.com/presentation/d/1VdLJk7T5PLxTKlEoBPK-E4Aq8gQo76YHWIbvTPYMPRk/edit?usp=sharing)
-
-Navigate to the slides and define common terms:
-
-#### Hash
-
-![screenshot of hash](Images/turning-hash.png)
-
-* Explain that a "hash" is a unique fingerprint of a piece of data.
-
-* A hash function is one-way, which means that you cannot reverse a hash much like you can't reverse mixing paint.
-
-* There are several popular hashing algorithms, SHA256 being one of the most popular.
-
-* However, it is easy to run the hash function over the same data again to verify the result is the same.
-
-* If you were to change a single bit of the input, you would get a completely different hash. This allows for something called "data integrity" which is a very important part of the internet and data security as well as blockchain technology.
-
-#### Digital Signature
-
-![screenshot of signature](Images/digital-signature.png)
-
-* Digital signatures are used to prove ownership or authenticity of data mathematically.
-
-* Once a file or message is signed, you can verify a specific individual signed it.
-
-* If the signed message is modified, the signature will be invalidated.
-
-* This means that if you were to sign a document, and the document was later modified, the signature would invalidate. You could then easily prove that the document was modified. This is not just used for documents but secure internet communication as well.
-
-Ask the students, "If a signed message is modified, what happens?"
-
-* **Answer** The message will be invalidated, and you would know the message was modified
-
-#### Crypto Wallet
-
-![screenshot of wallet](Images/digital-wallet.png)
-
-* A digital wallet is simply a set of "keys" to your funds that are on the blockchain.
-
-* This means that with a wallet, you can create and send transactions, as well as view your balance.
-
-* You can also sign messages with your digital wallet to prove ownership or authenticity of something.
-
-* A digital wallet is much like the debit cards in your wallet, and you use them to access funds in your account. Only in this case, the card is now a key, and the bank is now the blockchain.
-
-At this point, students should be curious about what a transaction is in the context of blockchain, continue with the slides, and highlight the following:
-
-![screenshot of transaction](Images/finger-blockchain.png)
-
-* A transaction is simply a signed message that authorizes a movement of funds between two parties.
-
-* It is essentially "I sign off on the movement of X amount of value from account A to account B" -- now that it is signed off, nobody can modify it.
-
-#### Blockchain Node
-
-![screenshot of node](Images/modern-network.png)
-
-* A full node keeps a copy of the blockchain. It verifies the signature of every transaction and throws out any that do not validate.
-
-* If you wanted to send a transaction, you would send it to a node to keep track of. Nodes broadcast the transaction to their neighbors until a miner comes along and finalizes the transactions.
-
-* Nodes are enforcing **all** of the rules of the blockchain. Thus they are a very important part of the security of the network.
-
-#### Miner or Block Producer
-
-![screenshot of miner](Images/graphic-miner.png)
-
-* A miner/block producer is a special type of node that is working to solve computations to finalize transactions.
-
-* Miners take the pending transactions from the nodes they are connected to and put them into a block.
-
-* Each miner races against each other to perform this process first, and the winner is rewarded by the network for its work. Then this race happens again and again for each new block in the chain.
-
-Reassure the students that we will dive deeper into the mechanisms in which nodes and miners communicate with each other, as well as the full life cycle of a transaction from creation to being stored in a block.
-
-After the break, students will learn how to use a cryptocurrency wallet using [MyCrypto Desktop App](https://download.mycrypto.com/), ask the class if everyone has installed the app if some students don't, ask them to reach you or TAs during the break to install it.
+  * **Answer:** The ledger, or record, is public, so transactions are visible to all users of the blockchain. Due to this system of checks and balances, users will likely notice if a fraudulent transaction is posted to the chain.
 
 Answer any questions before moving on.
 
 ---
 
-### 11. BREAK (15 min)
+### 9. BREAK (15 min)
 
 ---
 
-### 12. Everyone Do: Using a Wallet (15 min)
+### 10. Instructor Do: Blockchain Rules and Trust (15 min)
 
-**Corresponding Activity:** [04-Stu_Using_Wallet](Activities/04-Stu_Using_Wallet)
+In the first part of this section, you’ll introduce the concept of permissioned and permissionless blockchains. The second part of the section deals with the concept of trust in a blockchain.
 
-In this activity, students will learn how a cryptocurrency wallet works using [MyCrypto Desktop App](https://download.mycrypto.com/); students will be requesting `testnet` tokens and sending transactions to their fellow students.
+#### Permissioned vs. Permissionless Blockchains
 
-Explain to the students that this activity is a collaborative demo where you are going to show them how to create a crypto wallet using MyCrypto App.
+Start by reviewing the concept of blockchain standards.
 
-You will lead the activity, and the students should follow you along the process, be sure to keep the pace of the activity and ask your TAs to assist those students that may be stuck.
+* **Blockchain standards** are a set of rules that define the blockchain code and how it operates. Who creates the rules that define the blockchain standard? It depends on whether the blockchain is permissioned or permissionless.
 
-Open the MyCrypto App, and follow the next steps along with the demo.
+* A **permissioned** blockchain has a trusted, third-party arbiter - for example, a government, corporate CEO or Board of Directors, or another well -respected institution acting as the central decision-making authority.
 
-1. On the left menu, click on "Create New Wallet", next on the right-side panel click on "Generate a Wallet" under the "Create New Wallet Section."
+* A **permissionless** blockchain doesn’t have a central authority to provide trust. Instead, people place their trust in the prespecified rules of the blockchain, which are the incentives that keep the users acting appropriately.
 
- ![Create wallet](Images/create.png)
+  * For permissionless, or **open**, blockchains, the code of the blockchain includes its “rules of the game.” This code runs for all the users of the chain and is distributed across all the users.
 
- Explain to students, that we are going to use this option since we are going to make transactions with test Ethereum tokens, this is the best option for testing proposes and it has no cost; students shouldn't be worried about the warning message in red letters that states that this option is "Commonly a target for phishing or hacking".
+  * Bitcoin and Ethereum are examples of permissionless blockchains.
 
-2. In the "Create New Wallet" screen, scroll down to the "Mnemonic Phrase" option and click on the "Generate a Mnemonic Phrase" button.
+* What if the rules need to change? In this case, permissionless blockchains are rather democratic.
 
- ![Create nmemonic](Images/mnemonic.gif)
+  * The users of the chain can vote on the proposed changes. If a threshold of votes (usually a majority) accepts the changes, the code is rewritten going forward.
 
-3. MyCrypto will generate a unique mnemonic phrase for you, write down this phrase **in order** and store it in a safe place. Do not share this phrase with anyone, treat it like your banking password. Note that the mnemonic phrase bellow is just a sample and will differ in your demo.
+  * However, a strong disagreement concerning the proposed changes to a standard might result in a blockchain fork. Those in favor of the new standard, **fork** the code into a new blockchain that contains the new rule. Those opposed to the new standard continue using the original blockchain.
 
- ![Confirm mnemonic](Images/mnemonic.png)
+Go to the slide that shows the following image of a blockchain fork:
 
- After writing down this phrase, click on the "Confirm Phrase" button to continue.
+![An illustration depicts a blockchain fork.](Images/blockchain-fork.png)
 
-4. In the next screen, you will need to confirm the phrase by clicking your words in order. Click on the "Confirm Phrase" button after clicking on the words in order.
+* One well-known example of a blockchain fork was the classic fork of Bitcoin to Bitcoin Cash.
 
- ![Confirm mnemonic step 2](Images/mnemonic_confirm.gif)
+Have a TA slack out the following link so that students can learn more about this fork: [Some Bitcoin Backers Are Defecting to Create a Rival Currency](https://www.nytimes.com/2017/07/25/business/dealbook/bitcoin-cash-split.html).
 
-5. In the next screen, you will see the steps you will need to unlock your account in the future.
+Summarize the points about permissed and permissionless blockchains:
 
- ![Unlock wallet steps](Images/MyCryptop-Unlock-Steps.png)
+* The key difference between permissioned and permissionless blockchains is who writes the rules for how the ledger works.
 
-At this point, you have created your wallet; now, you need to unlock it to start making transactions.
+* Ultimately, blockchains (permissioned or permissionless) are about trust. Does the user trust the authority of the entity that’s running a permissioned chain? Or, do they instead trust more in the algorithmic design of a permissionless chain?
 
-6. Unlock your wallet by going to the "View & Send" option in the left pane menu and pick the "Mnemonic Phrase" option.
+* Trust is a subjective concept, but its presence (or lack thereof) can determine the fate of a blockchain.
 
- ![Unlock wallet step 1](Images/unlock-1.png)
+#### Trust and Value
 
-7. Type your mnemonic phrase, separated by spaces (you can click the eye to view it), then continue by clicking the "Choose Address" button.
+In this section, you'll examine the concepts of trust and value in a financial context. In doing so, you'll explain why blockchains came into existence and what drives much of their continued success.
 
- ![Unlock wallet step 2](Images/unlock-2.png)
+* Any financial transaction involves a trusted third party: a person, an institution, or a concept. Without that, the transaction simply doesn’t occur.
 
-8. In the next screen, you will choose a test Ethereum address to unlock. Be sure that the `Testnet(ETH)` option is selected in the "Addresses" dropdown list, select the first available address and click on the "Unlock" button to continue.
+  * For example, imagine that someone wants to buy a laptop with a bag of seashells. Unless the seller is a passionate seashell collector, they won’t sell their laptop for that bag. If the same person instead offered a five-inch stack of a particular type of paper (say, $100 bills), they might readily accept. This is because the seller trusts the concept of dollars. If a buyer gives those pieces of paper to someone, that person will in turn do something.
 
- ![Unlock wallet step 3](Images/unlock-3.png)
+  * Or, perhaps the seller doesn’t trust the person who’s offering them the five-inch stack of bills. That does seem suspicious, right? But if the buyer used Venmo to pay, the seller would feel sure that the money was legitimate and not fake.
 
- The address you unlocked is the address of your cryptocurrency wallet for the Ethereum network.
+  * Why? Because there is trust in the institution that is Venmo. In this case, trust is everything. The money is just a digital row in a database of figures that Venmo tracks, but it has value because of the trust factor.
 
-9. Once you unlocked the address, it's time to make your first transaction. In the next screen, you can see the balance of your wallet, `0 ETH` right now, and the account address. Copy the address by clicking on the "copy address" option to continue.
+* In sum, value is built entirely around trust. And because trust is a concept, value is also a concept. Even though a $100 bill hardly differs physically from a paper towel, everyone agrees that it’s worth something—and so it is.
 
- ![Unlock wallet step 4](Images/unlock-4.png)
+* This level of trust might seem a little scary. What if Venmo overwrites that data entry? Or, what if the US government behaves wildly when printing paper money? In this case, everyone might end up with so much paper money that it’s no longer worth anything.
 
-10. At the bottom left of the app, click on "Change network" and select `kovan`. Note that if `kovan` was not selected when you change the network, you should unlock your wallet address again by following steps `6` to `8`.
+* These scenarios might seem far-fetched. But after 2008–2009, when the US government’s central bank created nearly a trillion dollars to purchase bonds, they seemed less far-fetched than many people had previously believed. At the same time, this monetary policy shocked many people’s concept of value, insofar as value is defined by the paper that governments print.
 
- ![Change network](Images/change_network_kovan.gif)
+* The effort of central banks in many countries and regions during this time to create lots of new money was an attempt to jolt economies out of their near collapse. But this shock of monetary policy was one reason why people began to turn to Bitcoin and other cryptocurrencies as perhaps a more trustworthy source of value.
 
-Explain to students that, to test a blockchain, there are testing networks (aka `testnets`) that contain a group of testing addresses for development proposes. In the case of Ethereum, the most commonly used testnets are `kovan` and `ropsten`. We will use `kovan` for this demo but if you experience any trouble connecting, feel free to use `ropsten` (faucet at [https://faucet.ropsten.be/](https://faucet.ropsten.be/)), `rinkeby` (faucet at [https://faucet.rinkeby.io/](https://faucet.rinkeby.io/)) or any other testnet. Explain to students that they can find faucets by googling  the 'name of the testnet' + faucet.
+* One way that Bitcoin builds trust from its users is by strictly controlling supply. By design, only 21 million coins can ever be created.
 
+  * This proved an appealing way to solve the problem of preserving the value of this currency. But, some currencies that came shortly after—Ethereum, for example—had no restriction on supply. Yet, people seemed to trust this currency, too.
 
-11. Now you are going to request a test Ethereum token from the `kovan` network, and it's going to be transferred to your wallet. Open your browser, and navigate to the testnet token faucet at [https://faucet.kovan.network/](https://faucet.kovan.network/). Once you open the page, click on the "Login with Github" button to continue.
+  * Why? One answer might be that Ethereum adopted many of the security aspects of Bitcoin but improved the usability of doing transactions. And as more users adopted Ethereum for its usability, they began to trust it both as a way to send money and as a store of value.
 
- ![Request ETH -1 ](Images/request-eth-1.png)
+* In sum, cryptocurrencies began by presenting an alternative currency in which to place trust, at a time when people questioned their trust in traditional currencies.
 
-Explain to students that the faucet is a means of providing test tokens to users so that they can run their smart contracts on the test networks.
+* One possible reason that some cryptocurrencies have maintained that trust is that they continue to evolve toward greater usability.
 
-* For this demo, the faucet will allow us to request Kovan Ether (KETH) to be used on Kovan Ethereum test network.
+* As long as cryptocurrencies and, more importantly, blockchain, continue to strike that balance between trust and usability, they’re likely here to stay.
 
-12. After login into the faucet, you will see the following form where you can request one Kovan Ether every 24 hours. Paste the wallet address into the `Kovan address` box and click on the "Send me KETH!" button to continue.
+#### Blockchain Recap
 
- ![Request ETH -2 ](Images/request-eth-2.png)
+Recap what students have learned so far: some basic blockchain operations like transaction verification and mining,  the key features of blockchain, blockchain standards, and the importance of trust.
 
-13. Once you request the testing KETH token, you will see the following screen that confirms that the transaction was successfully completed.
+Using the following questions, summarize the lesson through a quick Q&A.
 
- ![Request ETH -3 ](Images/request-eth-3.png)
+**Question:** What are the key features of blockchain technology?
 
-14. You can view the transaction status on `Etherscan` using the link provided.
+  * **Answer:** Decentralization, distributed architecture, record keeping, trust, transparency.
 
- ![Request ETH -4 ](Images/request-eth-4.png)
+**Question:** Why would a fintech entrepreneur want to build a software application that uses blockchain?
 
-Explain to students that `Etherscan` is a visual BlockExplorer for the Ethereum Blockchain. A BlockExplorer is a search engine that allows users to easily lookup, confirm, and validate transactions that have taken place on the Ethereum Blockchain.
+  * **Answer:** There are many possible answers to this question, including the following:
 
-15. Once you confirmed that the transaction was successful, go back to MyCrypto App and refresh your wallet balance by clicking on the refresh icon. Note that now you have one ETH in your wallet, remember that this is not real ETH, it's a testing token for development proposes with no monetary value.
+    * Permissionless blockchain enables fast, global transactions that are not managed by a single authority.
 
- ![Request ETH -4 ](Images/request-eth-5.gif)
+    * Blockchain supports borderless, neutral, and censor-resistant finance.
 
- ![ETH Transaction](Images/eth-transaction-1.gif)
+    * The decentralized nature of blockchain offers a more secure infrastructure for the next generation of application and web development.
 
-Explain to students that as they can see in the message that appears after the transaction, it's not an immediate operation; after a transaction is sent, it's mined and confirm in a process that could take three or more hours. You can check the status of the transaction on `Etherscan` using the links provided after the transaction.
+    * A blockchain removes intermediaries such as PayPal, Venmo, and Cash App, and allows for peer-to-peer payments—and thus lower fees.
 
-Inform the students:
-
-* These test tokens are provided by faucets run by developers just like us, so when we're done with our test tokens, it is polite
-  to send them back to the faucet. Otherwise, if we simply discarded our wallets that had test Ether in them, those developers have to
-  put more effort into keeping the faucet funded and create new test tokens. This applies for all test blockchain networks as well!
-
-Answer any questions before moving on.
+Explain that the next lessons move beyond blockchain basics and theory and into coding an actual blockchain using Python. For the rest of this lesson, they’ll learn how to use a Python library called Streamlit, which they’ll use to test the functionality of basic blockchain code.
 
 ---
 
-### 13. Instructor Do: Block Explorers Demo (10 minutes)
+### 11. Instructor Do: Introducing Streamlit (15 min)
 
-The goal of this demo is to show the students how block explorers can be used to visualize transactions on the blockchain.
+**Corresponding Activity:** [Streamlit](Activities/03-Ins_Streamlit)
 
-Explain to students that now you are going to explore the transaction history of the wallet. Open your wallet in MyCrypto and click in the link under the "Transaction History" section.
+In this section, you will introduce students to the Streamlit library for use with web applications.
 
-![BlockExplorer - 1](Images/etherscan-1.png)
+**Files:**
 
-Comment to students that the web browser will open the `Etherscan` BlockExplorer with the transactions history of your wallet, and highlight the following:
+Use the starter file to demo the code for the students.
 
- ![BlockExplorer - 2](Images/etherscan-2.png)
+[Starter file](Activities/03-Ins_Streamlit/Unsolved/app.py)
 
-* The balance field reflects that this wallet is part of the public nature of blockchains; some blockchains have this field hidden, like `Zcash` or `Monero`.
+[Solution file](Activities/03-Ins_Streamlit/Solved/app.py)
 
-* The list of transactions keeps track of all the movements of this account has made, it can be seen that every transaction has a "Transaction Hash" column on the very left.
+Begin by explaining that Streamlit is a Python library that allows developers to quickly turn Python scripts into shareable web applications.
 
-Click on the transaction hash for the first transaction, and ask the students what they think a transaction hash might be, and what it might be used for.
+* Streamlit can be used with almost any Python script.
 
-* **Answer**: The transaction hash is used as the unique ID of the transaction to find it later.
+* Streamlit is a Python library that is used to create user-friendly webpage interfaces. In this course, Streamlit will be used to build a front-end interface for blockchain functionality.
 
-![BlockExplorer - 3](Images/etherscan-3.gif)
+* Streamlit is a Python library that works only with Python files (`.py` files). Therefore, it won’t work with Jupyter notebooks (`.ipynb` files). Although Python files can be coded in JupyterLab, it’s recommended that you write the applications in Visual Studio Code. Regardless of the integrated development environment (IDE) you use, the Streamlit applications need to be run from a new terminal instance.
 
-Go back to the initial address page, then click on the "Block Number" section of the first transaction.
+Ask a TA to slack out the [Streamlit Gallery page](https://streamlit.io/gallery) to the students.
 
-![BlockExplorer - 4](Images/etherscan-4.gif)
+Allow the students a few minutes to explore the types of web applications that can be created using the Streamlit library. Then, discuss a couple of the applications with the students and ask for volunteers to share one or two favorites.
 
-Point out the fields "Mined By" and "Block Reward" and explain that this is the address of the miner that successfully created this block and received that amount of Ether as a reward.
+Next, have a TA slack out the links to the [Streamlit website](https://www.streamlit.io/) and the [Streamlit GitHub page](https://github.com/streamlit/streamlit).
 
-Continue the demo by clicking on the "Transactions" option to view which transactions were mined in that block.
+Explain to students that, by using the documentation provided on the [Streamlit website](https://www.streamlit.io/), it’s relatively simple to create web applications like the ones just discussed by incorporating the Streamlit functions into a Python file. This will be demonstrated in the next section.
 
-![BlockExplorer - 5](Images/etherscan-5.png)
+#### The Streamlit Library
 
-Explain to students that these are the transactions that were mined in this particular block.
+In this section, demonstrate how to use Python and Streamlit to build a basic interactive web application.
 
-![BlockExplorer - 6](Images/etherscan-6.png)
+First, confirm that students have installed the Streamlit library to their Conda development (`dev`) environments. Then, demonstrate these steps:
 
-Answer any questions before moving on.
+* Launch the Conda `dev` virtual environment in the terminal, and then run the following command:
 
----
+  ```shell
+  pip install streamlit
+  ```
 
-### 14. Student Do: Visualizing Transactions
+* Once you’ve installed Streamlit, navigate to the `app.py` file associated with this activity and  import Streamlit into a new Python file as the following code shows:
 
-**Corresponding Activity:** [05-Stu_Visualizing_Transactions](Activities/05-Stu_Visualizing_Transactions)
+  ```python
+  import streamlit as st
+  ```
 
-For this activity, students will visualize transactions using the same technique used in the demo.
+##### Run the Streamlit Application
 
-Students will get into small groups and will explore the blockchain using Etherscan together.
+In this section, you’ll demo how to run the Streamlit application. Show students these steps:
 
-Have TAs circulate to provide assistance to students facing challenges or to clarify the role of each student.
+* Back in the terminal, navigate to the root folder in which your `app.py` file is located and then run the following command:
 
-**Instructions:**
+  ```shell
+  streamlit run app.py
+  ```
 
-* [README.md](Activities/05-Stu_Visualizing_Transactions/README.md)
+Explain to students that they should always navigate to the folder in which the Python file for their Streamlit application resides.
 
----
+The following image should match the result that you are seeing, which displays the web address of our running application:
 
-### 15. Instructor Do: Visualizing Transactions Review (10 min)
+![A screenshot depicts the resulting screen in the terminal window.](Images/streamlit-server-terminal-text.png)
 
-Review the groups and ensure that students can navigate and visualize transactions.
+Point out to students that the Streamlit application server is currently serving the web application at `http://localhost:8501`.
 
-Recap by asking the students to answer these questions:
+* Navigate to this URL, there will be a blank page with a menu (or hamburger) button which looks like three horizontal lines in the upper-right corner of the page.
 
-* "What is a transaction hash?"
+![A screenshot depicts the page.](Images/streamlit-empty-page.png)
 
-  **Answer:** It's an identifier used to identify a particular transaction uniquely.
+* The Streamlit interface currently renders a blank website because nothing has been written to the page.
 
-* "What type of information is available to you on a public blockchain's block explorer?"
+With the Streamlit server up and running, it’s time to code some Streamlit functions to display webpage content.
 
-  **Answer:** Practically everything, balances, transaction history, data stored on-chain, etc.
+##### Display Content on Your Webpage
 
-* "Is this a fully anonymous blockchain?"
+Demonstrate the Streamlit functionality for the students. Be sure to cover the following points:
 
-  **Answer:** No, the current version of the public Ethereum network is pseudonymous, not fully anonymous yet.
+* One of the terrific things about Streamlit is that almost any text can be written from Python directly to the webpage by using the `st.write` function.
 
-Explain to the class that while the current version of Ethereum is pseudonymous, future updates will bring a technology called "Zero-Knowledge Proofs" that will enable completely private transactions on a public network.
+* This includes strings, variables, Pandas DataFrames, Markdown syntax, and even emojis.
 
-* This means that the balances and transaction history between accounts will be encrypted in a way that allows for verification without exposing potentially sensitive information.
-
-* This allows for private, enterprise applications to run on open blockchains!
-
-* This means that in the future, transactions will be private, and you will only be able to view transactions that you are a part of.
-
-* There are currently public blockchains, like `Zcash`, that implement this now by default, so be on the lookout for zero-knowledge protocols in future blockchain upgrades.
-
-Answer any questions before moving on.
-
----
-
-### 16. Instructor Do: Intro to Ethereum (10 min)
-
-Open the lesson slides, move to the "Intro to Ethereum" section, and ask the students the following question:
-
-* What would it be like to be able to code with money, like this?
-
- ```python
- amount = $10 dollars
- recipient = "JaneDoe123"
- wallet.send_transaction(amount, recipient)
- ```
-
-Explain to students that's what Ethereum brings to the table, just replace a couple fields:
+Pass the string “Hi, this is our first web app in Python! :sunglasses:” to the `st.write` function:
 
 ```python
-amount = 0.05 Ether
-recipient = "0xc3879B456DAA348a16B6524CBC558d2CC984722c"
-wallet.send_transaction(amount, recipient)
+st.write("Hi, this is our first web app in Python! :sunglasses:")
 ```
 
-Comment to students that, despite this is pseudocode, it should get the point across. Continue through the lesson slides and highlight the following.
+While writing the code, have a TA slack out the link to the [Streamlit documentation on the `write` function](https://docs.streamlit.io/en/stable/api.html?highlight=st.write#streamlit.write).
 
-* Ethereum secures over $20 billion US Dollars in assets without a central authority. It powers a huge ecosystem of decentralized applications and financial ecosystems.
+Highlight that the Streamlit documentation is thorough and quite easy to navigate. It generally includes an example of how the code can be used.
 
-* First generation blockchains were much like the days of carrying a cell phone, iPod, and calculator with you. Each solved a specific problem.
+Save the file and refresh the webpage. The following image shows the resulting webpage:
 
-* Ethereum brought to blockchains what the iPhone brought to personal computing, a general-purpose platform where apps take the place of separate devices.
+![A screenshot depicts our string with the sunglasses emoji at the end.](Images/first-streamlit-st-write.png)
 
-* Now, you can build fully-fledged applications, called "Smart Contracts" on top of the blockchain with Ethereum.
+Next, use `st.write` to display a Markdown heading.
 
-* You can think of Ethereum like the inverse of AWS Lambda. With Lambda, you upload your code to Amazon and pay per use.
+  ```python
+  st.write("# Python Web App")
+  ```
 
-* Amazon, in this case, is the central party, they control the computing. Whereas in Ethereum, every person who helps run Ethereum becomes part of the "global computer", and you pay the network itself to run your code instead of a single party.
+Next, import the Pandas library and create a DataFrame.
 
-Ask the students the following question:
+  ```python
+  import pandas as pd
 
-* "What are some benefits you can think of to having compute power distributed in such a way?"
+  df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
+  st.write(df)
+  ```
 
-  **Answer:** No bottlenecks in the system, since the world helps run the code
+Again, save `app.py`, navigate to the terminal, and show where the Streamlit application is still running. Then, navigate to the webpage and click the refresh button.
 
-  **Answer:** Highly reliable systems that will run regardless of if some servers go down
+The following image shows the result you should see on your screen:
 
-If students are unclear as to how this works, reassure them that they will be learning the inner workings when they begin Smart Contracts in Unit 20.
+![A screenshot depicts the resulting webpage.](Images/app-streamlit-write.png)
 
-* The most significant point to get across is that everyone shares computing power to create a platform that anyone can upload and run code on top of.
+Explain that Streamlit offers a streamlined process for displaying Python data on a webpage.
 
-Now, transition to talk about the types of financial services that you can build with Ethereum:
+* While this is helpful and fun, web applications become truly useful when users can directly interact with the data or add new data to the webpage. Streamlit helps with this, too.
 
-* Payments - Peer to Peer, Business to Business, Business to Customer, Machine to Machine
+##### Enable Interaction with Your Web Application
 
-* Remittances – Movement of funds across borders into a bank account.
+Explain that, to enable interaction with the web application, we add a box to our webpage where users can input data.
 
-* Loans – Using crypto-currency as collateral for loans to reduce costs of transactions.
+In this case, we add a text box, where users can enter text (that is, data in the form of a string).
 
-* Deposit-taking – Storing crypto in wallets to use as interest-earning assets.
+* Define a new variable named `input_value` to store the string that a user enters.
 
-* Notary services – Blockchain-based notary services that authenticate documents.
+* Set the `input_value` variable equal to an instance of the `st.text_input` function. This function accepts a unique string that displays on the webpage to describe the text box.
 
-* Brokerage services – Trading tokens and other digital assets on the Blockchain.
+Describe the purpose of the text box by entering the string “Enter a Message”:
 
-* Foreign exchange – Using crypto as a bridge between fiat/government currencies to reduce the cost of foreign currency fees.
+  ```python
+  input_value = st.text_input("Enter a Message")
+  ```
 
-* Decentralized crypto exchange - Using the blockchain as a backend to support a crypto-trading exchange.
+Next, add a "Display Message" button to the webpage for more interactivity.
 
-* Tokenizing assets - Representing things from the US Dollar, Gold, Securities, to unique video game assets an on the blockchain.
+  ```python
+  if st.button("Display Message"):
+      st.write(input_value)
+  ```
 
-Answer any questions before moving on.
+* To create a button, use the Streamlit `st.button` function.
 
----
+* The button uses  a Python `if` statement so that the function is not triggered until the button on the screen is clicked.
 
-### 17. Student Do: Use Case Brainstorm (10 min)
+* When a user clicks the “Display Message” button, Streamlit will run the `st.write` function contained inside the button's function.
 
-**Corresponding Activity:** [06-Stu_Use_Case_Brainstorm](Activities/06-Stu_Use_Case_Brainstorm)
+* The `input_value` contains the string that the user entered in the text box.
 
-Now that the students have learned about the features of Ethereum and how it acts as a decentralized world computer, it is an excellent time to brainstorm different use cases given these features.
+Go through the process of saving the file and refreshing the page for the web application.
 
-Students will get into groups and come up with different decentralized application ideas, as well as discuss gaps they may be familiar with.
+Demonstrate that you can now type text in the text box (which is the gray box that displays after “Enter a Message”).
 
-Have TAs circulate throughout the class, facilitating discussion and ensuring students are not lost.
+Type “Hello there my friends” in the box. We then click the “Display Message” button, and the text that we typed displays on the page!
 
-**Instructions:**
+![A screenshot depicts the updated webpage.](Images/streamlit-ui-elements.png)
 
-* [README.md](Activities/06-Stu_Use_Case_Brainstorm/README.md)
+Explain that we will be using Streamlit throughout the blockchain units to add front-end functionality to our blockchain work.
 
----
+Reassure students that the Streamlit documentation is excellent and will prove helpful as they work with Streamlit in this unit and beyond.
 
-### 18. Instructor Do: Use Case Review (10 min)
+Ask students if they have any questions about importing Streamlit to their conda development environment or creating and launching the application, then move to the next activity.
 
-Ask different groups what their most exciting use case was and have them describe them to the class.
+### 12. Student Do: A Streamlit App (20 min)
 
-Facilitate the discussion toward the benefits of decentralizing specific applications.
+**Corresponding Activity:** [Streamlit App](Activities/04-Stu_A_Streamlit_App)
 
-* What are the main benefits of decentralizing your application?
+In this activity, students will create and launch their own basic Streamlit application.
 
-  **Answer:** The application can only go down if the entire Ethereum network goes down.
+If they are having trouble launching the application, confirm that they have installed the Streamlit library in the development environment, and that it is active. Otherwise, encourage students to use the Streamlit documentation to resolve any issues.
 
-  **Answer:** The application can run without a central server.
+Slack out the following instructions and starter file to the students.
 
-  **Answer:** The application could potentially live forever (as long as Ethereum exists).
+**Files:**
 
-  **Answer:** The application is pay-per-use, much like a decentralized AWS Lambda.
+[Instructions](Activities/04-Stu_A_Streamlit_App/README.md)
 
-* If the students chose a game-based use case, ask what type of assets they have represented?
+[Starter file](Activities/04-Stu_A_Streamlit_App/Unsolved/app.py)
 
-* Is there a limit to what you can build with Ethereum's Turing complete smart contracts?
+### 13. Instructor Do: Review Streamlit App (10 min)
 
-  **Answer:** No, in theory, you could build any application just as you would with any other general-purpose programming language.
+**Corresponding Activity:** [Streamlit App](Activities/04-Stu_A_Streamlit_App)
 
-Reinforce the idea that Ethereum's smart contracts are just programs that run on a distributed, decentralized computer.
+If time permits, use the starter file to live code the activity. If time is running short, use the solution file to review the code with the students.
 
-Explain to students that anyone can upload and pay to run code in a secure sandboxed computer environment, allowing for a safer, immutable web, and for building powerful financial applications.
+The most significant aspect of the review is demonstrating the process of running the application via the terminal.
 
-Answer any questions before moving on.
+**Files:**
 
----
+[Instructions](Activities/04-Stu_A_Streamlit_App/README.md)
 
-### 19. Instructor Do: Recap (10 min)
+[Solution file](Activities/04-Stu_A_Streamlit_App/Solved/app.py)
 
-Students have learned tons of new information today. Facilitate a discussion around the different ideas that were spoken about during the class, and what questions students may be asking the most.
+[Starter file](Activities/04-Stu_A_Streamlit_App/Unsolved/app.py)
 
-* What types of blockchain applications excite you the most?
+As you work through the following solution, call on students or ask for volunteers to help write the code.
 
-* What types of financial services can blockchains improve?
+  ```python
+  # Import the libraries for Pandas and Streamlit
+  import streamlit as st
+  import pandas as pd
 
-  **Answer:** Practically any that currently requires unnecessary middlemen.
+  # Create a title for your application using markdown syntax and the Streamlit
+  # `write` function.
+  st.write("# Streamlit Web Application")
 
-* How does blockchain technology improve the lives of people around the world?
+  # Create an opening sentence for your application using regular text and the
+  # Streamlit `write` function.
+  st.write("Streamlit allows you to make shareable web applications.")
 
-  **Answer:** It provides robust financial platforms that don't always exist, or are not trustworthy.
+  # Create a Pandas dataframe
+  df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
 
-  **Answer:** It supports borderless, neutral, and censor resistant finance that cannot be oppressed easily.
+  # Write the Pandas dataframe to the page
+  st.write(df)
+
+  # Create a text input box using the Streamlit `text_input` function.
+  # Save the input as a variable.
+  text = st.text_input("Enter a message here")
+
+  # Utilize the Streamlit `button` function to display the text input variable
+  # created in the prior step to the page.
+  if st.button("Display the Text Message"):
+      st.write(text)
+  ```
+
+At this point, ask the following question:
+
+**Question:** Did anyone have time to determine the difference between the Streamlit `text_input` function and the `text_area` function?
+
+  * **Answer:** The `text_input` function is best for one-line input, while the `text_area` function is designed to accommodate multi-line text.
+
+After writing the necessary code, navigate to the terminal, activate your Conda `dev` environment, and run the Streamlit application:
+
+  ```shell
+  streamlit run app.py
+  ```
+
+If time permits, use the [Streamlit documentation on `sidebar`](https://docs.streamlit.io/en/stable/api.html?highlight=sidebar#add-widgets-to-sidebar) to code the bonus section.
+
+Ask for a volunteer to share how to code a sidebar select box that allows the user to choose their favorite Python library. Here’s the code:
+
+  ```python
+  library = st.sidebar.select box(
+      "What is your favorite Python library?",
+      ("Pandas", "NumPy", "Streamlit")
+  )
+  ```
+
+Ask for another volunteer for the code to display the choice in the sidebar. Here’s the code:
+
+  ```python
+  if st.sidebar.button("Display selection"):
+      st.sidebar.write(library)
+  ```
+
+Ask the students if they have any questions about the Streamlit web application, its code, or how it’s run.
+
+Let students know that Streamlit will be used in the Unit 18 homework, as well as lessons and homework throughout the blockchain section of the course.
+
+Ask for any remaining questions regarding Streamlit or blockchain before ending the class.
+
+### 14. Structured Review
 
 ---
 
 ### End Class
 
 ---
-© 2020 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+© 2021 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
