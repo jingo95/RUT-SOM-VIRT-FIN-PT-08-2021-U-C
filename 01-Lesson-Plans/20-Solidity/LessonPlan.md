@@ -371,7 +371,7 @@ Run the `getInfo` function, and point out that the values have changed.
 
       function() external payable {}
   }
- ```
+  ```
 
 Review what happens when `20 ether` is added to the contract by adding it and running the `getInfo` function.
 
