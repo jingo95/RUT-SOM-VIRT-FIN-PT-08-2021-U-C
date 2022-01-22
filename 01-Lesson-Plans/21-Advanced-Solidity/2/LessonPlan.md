@@ -639,7 +639,7 @@ Before moving on to the next section, ask the students if they have any addition
 
 ---
 
-### 7. Instructor Do: Introducing MetaMask (10 min)
+### 7. Instructor Do: Introducing Ganache and MetaMask (10 min)
 
 **Corresponding activity:** [Ganache & MetaMask Demo](Activities/03-Evr_Deploying_Tokens)
 

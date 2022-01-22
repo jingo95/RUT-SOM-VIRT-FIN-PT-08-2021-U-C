@@ -541,7 +541,7 @@ Explain to the students that in the next activity, they'll apply all their new k
 
 ---
 
-### 4. Student Do: Arcade Token (30 min)
+### 4. Student Do: Arcade Token (25 min)
 
 **Corresponding activity:** [Arcade Token](Activities/02-Stu_Arcade_Token)
 
